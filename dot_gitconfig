@@ -1,0 +1,41 @@
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+[user]
+	name = Neil Burningham
+	email = neil.burningham@mediakind.com
+[core]
+	excludesfile = ~/.gitexcludes
+[alias]
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lom = log --merges --first-parent HEAD --pretty=format:\"%h %<(16,trunc)%an %<(15)%ar %s\"
+	lomm = log --merges --first-parent origin/master --pretty=format:\"%h %<(16,trunc)%an %<(15)%ar %s\"
+	sti = ls-files -i --exclude-standard
+	oa = !zsh -c 'diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-master}") <(git rev-list --first-parent "${2:-HEAD}") | head -1' -
+[commit]
+	template = ~/.gitcommittemplate
+[credential]
+	helper = store
+[diff]
+	tool = bc
+	renameLimit = 1000
+[difftool]
+	prompt = false
+[merge]
+	tool = bc
+	ff = false
+[mergetool]
+	prompt = false
+[push]
+	default = simple
+[fetch]
+	prune = true
+[pull]
+	ff = only
+[mergetool "vscode"]
+	cmd = "code --wait $MERGED"
+[difftool "vscode"]
+	cmd = "code --wait --diff  $LOCAL $REMOTE"

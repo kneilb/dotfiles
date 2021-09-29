@@ -1,0 +1,24 @@
+# tmux session for Spark SE (MFVP-SP / MFSP / MFS)
+
+new-session -s spark -n edit
+send-keys 'emacs -nw' C-j
+
+new-window -n dev
+send-keys 'cd ~/projects/mfsp/MFSP' C-j
+send-keys '~/projects/mfsp/MFSP/docker/spark_docker_run.sh --dev' C-j
+
+new-window -n build-rpm
+send-keys 'cd ~/projects/mfsp/MFSP' C-j
+send-keys '~/projects/mfsp/MFSP/docker/spark_docker_run.sh --rpm' C-j
+send-keys 'cd refpack/mux/build/product' C-j
+
+new-window -n build-product
+send-keys 'cd ~/projects/mfsp/MFSP' C-j
+send-keys '~/projects/mfsp/MFSP/docker/spark_docker_run.sh --targz' C-j
+send-keys 'cd product' C-j
+
+new-window -n git
+send-keys 'cd ~/projects/mfsp/MFSP' C-j
+send-keys 'git status' C-j
+
+select-window -t 0

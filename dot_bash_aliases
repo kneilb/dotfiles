@@ -1,0 +1,54 @@
+# Aliases file: NAB 2010-2014
+
+# SVN aliases
+alias svn_status='svn status | grep -v -e ^X -e ^Performing -e ^$'
+alias svn_clean_ignored='svn status --no-ignore | awk '\''/^I/ { print $NF; }'\'' | xargs rm -ri'
+#alias svn_diff='svn diff --diff-cmd diffuse'
+#alias svn_diff='svn diff --diff-cmd kdiff3'
+#alias svn_diff='svn diff --diff-cmd meld'
+alias svn_diff='diffuse -m'
+alias svn_up='svn up | grep -v -e ^Fetching -e ^External -e ^"Updated external" -e ^$'
+alias svn_commit='svn commit $(svn_status | awk '\''/^[MAD][M ]/{ print $NF }'\'')'
+alias svn_revert='svn_status | grep "^ M" | awk '\''{ print $NF }'\'' | xargs svn revert'
+alias svn__REVERT='svn_status | awk '\''{ print $NF }'\'' | xargs svn revert'
+
+# dos2unix / unix2dos
+#alias dos2unix='fromdos'
+#alias unix2dos='todos'
+
+# make for kernel modules against running kernel
+alias make_module='make -C /lib/modules/$(uname -r)/build M=${PWD} modules'
+
+# vlc alias - make sure multicast traffic goes out on eth0
+alias vlc='vlc --miface eth0'
+
+# minicom aliases - do "the right thing" for each hardware type
+alias minicom_vpc='minicom -c on -o -w -D /dev/ttyUSB0'
+#alias minicom_evm='minicom -c on -o -w -D /dev/ttyUSB1'
+
+# reboot aliases
+alias reboot_vpc='ssh root@${VIPER_IP} reboot'
+alias reboot_avp='ssh root@${AVP_IP} reboot'
+
+# wholly stupid aliases
+alias giefv='echo no!'
+alias gifv='echo no!'
+alias kktnxbye='logout'
+alias kkthnxbye='logout'
+
+# ViPER1 build aliases
+alias make_avp='make all ftp target=avp'
+alias make_spr1100='make all ftp target=spr1100'
+alias make_spr1200='make all ftp target=spr1200'
+alias make_vpc='make all ftp target=hostprocessor'
+alias make_host='make target=host'
+alias make_test='make test target=host && valgrind ./bin/ubuntu/* 2>&1 | tee results.txt'
+alias make_testx='make test haste target=host && ./bin/ubuntu/* 2>&1 | tee results.txt'
+
+
+# ViPER2 aliases
+alias v2_env='. ~/bin/build_env'
+alias v2_ssh='ssh -i ~/.ssh/id_dsa_xpo3 root@$XPO3_IP_ADDR'
+
+# tmux alias - force 256 colours
+alias tmux='tmux -2'

@@ -1,0 +1,22 @@
+# tmux session for RX NG
+
+new-session -s rx_ng -n edit
+send-keys 'emacsclient -nw -c' C-j
+
+new-window -n build
+send-keys 'cd ~/projects/rx_ng/NG-Rx-Feasability/build/cmake' C-j
+send-keys 'docker_run.sh ./build.sh Debug' C-j
+
+new-window -n run
+send-keys 'cd ~/projects/rx_ng/NG-Rx-Feasability' C-j
+send-keys 'docker_run.sh' C-j
+send-keys C-r 'graph'
+
+new-window -n git
+send-keys 'cd ~/projects/rx_ng/NG-Rx-Feasability' C-j
+send-keys 'git status' C-j
+
+new-window -n tcpdump
+send-keys 'ip addr' C-j
+
+select-window -t 0

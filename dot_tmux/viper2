@@ -1,0 +1,22 @@
+# tmux session for ViPER2
+
+new-session -s viper2 -n edit
+send-keys 'emacsclient -nw -t' C-j
+
+new-window -n build
+send-keys 'cd ~/projects/viper2/svn/trunk' C-j
+send-keys '. ./setup_branch_env.sh' C-j
+send-keys 'cd AVP_2U/Software/Source' C-j
+
+new-window -n test
+send-keys 'cd ~/projects/viper2/svn/trunk' C-j
+send-keys '. ./setup_branch_env.sh' C-j
+send-keys 'cd Common_XPO3Resources/Software' C-j
+
+new-window -n svn
+send-keys 'cd ~/projects/viper2/svn/trunk' C-j
+
+new-window -n ssh
+send-keys C-r 'v2_ssh'
+
+select-window -t 0
