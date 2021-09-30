@@ -139,10 +139,11 @@ export NVM_DIR="$HOME/.nvm"
 # Kubectl completion integration
 [ "$(type -p kubectl)" ] && source <(kubectl completion bash)
 
-source /home/neil.burningham/.config/broot/launcher/bash/br
+[ -f ~/.config/broot/launcher/bash/br ] && source ~/.config/broot/launcher/bash/br
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/neil.burningham/google-cloud-sdk/path.bash.inc' ]; then . '/home/neil.burningham/google-cloud-sdk/path.bash.inc'; fi
+if [ -f '~/google-cloud-sdk/path.bash.inc' ]; then . '~/google-cloud-sdk/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/neil.burningham/google-cloud-sdk/completion.bash.inc' ]; then . '/home/neil.burningham/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f '~/google-cloud-sdk/completion.bash.inc' ]; then . '~/google-cloud-sdk/completion.bash.inc'; fi
+
