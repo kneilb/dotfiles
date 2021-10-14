@@ -10,7 +10,7 @@ set --global FZF_DISABLE_KEYBINDINGS 0
 set --global FZF_LEGACY_KEYBINDINGS 0
 set --global FZF_PREVIEW_DIR_CMD ls
 set --global FZF_PREVIEW_FILE_CMD head -n 10
-# set --global FZF_TMUX_HEIGHT 40-
+set --global FZF_TMUX_HEIGHT 40%
 
 # tide prompt
 set --global tide_character_color 5FD700
