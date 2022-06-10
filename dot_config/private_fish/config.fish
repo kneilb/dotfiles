@@ -2,7 +2,9 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-set --global fish_user_paths $HOME/bin $HOME/.local/bin
+fish_add_path $HOME/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.cargo/bin
 
 # fzf integration
 set --global FZF_DEFAULT_OPTS --height=40%
