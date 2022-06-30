@@ -253,20 +253,27 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
 
-  ;;disable splash screen and startup message
+  ;; Disable splash screen and startup message
   (setq inhibit-startup-message t)
 
-  ;; disable unwanted UI elements
+  ;; Disable unwanted UI elements
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (setq visible-bell t)
 
-  ;; enable column numbers in modeline
+  ;; Enable column numbers in modeline
   (column-number-mode)
   ;; (global-display-line-numbers-mode t)
 
-  ;; use vivendi theme
+  ;; (setq fill-column 120)
+  ;; (global-display-fill-column-indicator-mode nil)
+
+  ;; Save & restore open buffers, but not frames & position
+  (setq desktop-restore-frames nil)
+  (desktop-save-mode t)
+
+  ;; Use theme
   (load-theme 'modus-vivendi t)
   )
 
