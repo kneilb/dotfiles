@@ -274,6 +274,19 @@
   (desktop-save-mode t)
 
   ;; Use theme
+  (setq modus-themes-mode-line '(accented borderless padded))
+
+  ;; (setq modus-themes-region '(accented))
+  (setq modus-themes-region '(bg-only))
+  ;; (setq modus-themes-region '(bg-only no-extend))
+
+  ;; (setq modus-themes-completions 'minimal)
+  (setq modus-themes-completions 'opinionated)
+
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-italic-constructs t)
+  (setq modus-themes-paren-match '(bold intense))
+
   (load-theme 'modus-vivendi t)
   )
 
