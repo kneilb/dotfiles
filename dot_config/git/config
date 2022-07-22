@@ -6,8 +6,6 @@
 [user]
 	name = Neil Burningham
 	email = neil.burningham@mediakind.com
-[core]
-	excludesfile = ~/.gitexcludes
 [alias]
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
@@ -16,7 +14,7 @@
 	sti = ls-files -i --exclude-standard
 	oa = !zsh -c 'diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-master}") <(git rev-list --first-parent "${2:-HEAD}") | head -1' -
 [commit]
-	template = ~/.gitcommittemplate
+	template = ~/.config/git/commit-template
 [credential]
 	helper = store
 [diff]
