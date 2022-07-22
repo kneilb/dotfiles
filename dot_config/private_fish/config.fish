@@ -2,17 +2,11 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+# user paths
 fish_add_path $HOME/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.cargo/bin
-
-# fzf integration
-set --global FZF_DEFAULT_OPTS --height=40%
-set --global FZF_DISABLE_KEYBINDINGS 0
-set --global FZF_LEGACY_KEYBINDINGS 0
-set --global FZF_PREVIEW_DIR_CMD ls
-set --global FZF_PREVIEW_FILE_CMD head -n 10
-set --global FZF_TMUX_HEIGHT 40%
+fish_add_path $HOME/go/bin
 
 # tide prompt
 set --global tide_character_color 5FD700
@@ -121,3 +115,4 @@ set --global tide_vi_mode_icon_visual VISUAL
 set --global tide_virtual_env_bg_color 444444
 set --global tide_virtual_env_color 00AFAF
 set --global tide_virtual_env_icon \ue73c
+
