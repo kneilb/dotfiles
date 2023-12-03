@@ -183,7 +183,7 @@
   ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
   ;;;; 4. locate-dominating-file
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-)
+  )
 
 (use-package embark
   :ensure t
@@ -225,6 +225,26 @@
   :commands magit-status
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+;; Support diminishing minor modes
+(use-package diminish)
+
+;; Editorconfig, for sanity
+(use-package editorconfig
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
+
+;; Which-key
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+	 (lambda () (require 'ccls) (lsp))))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -269,6 +289,10 @@
   ;; (setq fill-column 120)
   ;; (global-display-fill-column-indicator-mode nil)
 
+  ;; Revert Dired & other buffers
+  (setq global-auto-revert-non-file-buffers t)
+  ;; (global-auto-revert-mode 1)
+
   ;; Save & restore open buffers, but not frames & position
   (setq desktop-restore-frames nil)
   (desktop-save-mode t)
@@ -281,7 +305,11 @@
   ;; (setq modus-themes-region '(bg-only no-extend))
 
   ;; (setq modus-themes-completions 'minimal)
-  (setq modus-themes-completions 'opinionated)
+  ;; (setq modus-themes-completions 'opinionated)
+  ;; (setq modus-themes-completions
+  ;; 	(quote ((matches . (extrabold background intense underline))
+  ;; 		(selection . (extrabold accented intense background))
+  ;; 		(popup . (accented)))))
 
   (setq modus-themes-bold-constructs t)
   (setq modus-themes-italic-constructs t)
@@ -295,7 +323,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(vertico use-package)))
+ '(package-selected-packages '(ccls which-key editorconfig vertico use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
