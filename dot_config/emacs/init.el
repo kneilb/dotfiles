@@ -8,8 +8,8 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
+;; Always require use-package - it's needed for key bindings even when everything's precompiled
+(require 'use-package)
 
 ;; Always install things we try to configure
 (require 'use-package-ensure)
@@ -17,11 +17,11 @@
 
 ;; (use-package all-the-icons)
 
-;; (use-package doom-modeline
-;;   :init (doom-modeline-mode 1)
-;;   :custom ((doom-modeline-height 15)))
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 30)))
 
-;; Vertico & friends
+;; Vertico (vertical interactive completion).
 (use-package vertico
   :init
   (vertico-mode)
@@ -54,7 +54,7 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-;; Enable richer annotations using the Marginalia package
+;; Marginalia (rich annotations in the minibuffer)
 (use-package marginalia
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
   :bind (("M-A" . marginalia-cycle)
@@ -68,18 +68,22 @@
   ;; enabled right away. Note that this forces loading the package.
   (marginalia-mode))
 
-;; Example configuration for Consult
+;; Consult (Improved search and navigation commands)
 (use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
-  :bind (;; C-c bindings (mode-specific-map)
+  ;; Replace bindings. Lazily loaded by `use-package'.
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
          ("C-c h" . consult-history)
-         ("C-c m" . consult-mode-command)
          ("C-c k" . consult-kmacro)
-         ;; C-x bindings (ctl-x-map)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
          ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
          ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
          ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
          ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
          ;; Custom M-# bindings for fast register access
@@ -88,8 +92,7 @@
          ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ("<help> a" . consult-apropos)            ;; orig. apropos-command
-         ;; M-g bindings (goto-map)
+         ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
@@ -99,15 +102,14 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings (search-map)
-         ("M-s d" . consult-find)
-         ("M-s D" . consult-locate)
+         ;; M-s bindings in `search-map'
+         ("M-s d" . consult-fd)                    ;; Alternative: consult-find
+         ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
-         ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
@@ -150,41 +152,29 @@
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key (kbd "M-."))
-  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
   ;; For some commands and buffer sources it is useful to configure the
   ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
-   consult-theme
-   :preview-key '(:debounce 0.2 any)
+   consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-recent-file
-   consult--source-project-recent-file
-   :preview-key (kbd "M-."))
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any))
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
+  (setq consult-narrow-key "<") ;; "C-+"
 
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
+)
 
-  ;; By default `consult-project-function' uses `project-root' from project.el.
-  ;; Optionally configure a different project root function.
-  ;; There are multiple reasonable alternatives to chose from.
-  ;;;; 1. project.el (the default)
-  ;; (setq consult-project-function #'consult--default-project--function)
-  ;;;; 2. projectile.el (projectile-project-root)
-  ;; (autoload 'projectile-project-root "projectile")
-  ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
-  ;;;; 3. vc.el (vc-root-dir)
-  ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
-  ;;;; 4. locate-dominating-file
-  ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-  )
-
+;; Embark (Minibuffer actions)
 (use-package embark
   :ensure t
 
@@ -242,11 +232,59 @@
   :config
   (setq which-key-idle-delay 0.3))
 
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-	 (lambda () (require 'ccls) (lsp))))
+;; Languages etc
+;; Use Eglot (built in) instead of ccls
+;; (use-package ccls
+;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;; 	 (lambda () (require 'ccls) (lsp))))
+(use-package crontab-mode)
+(use-package graphviz-dot-mode)
+(use-package mermaid-mode)
+(use-package nix-mode)
+(use-package rust-mode
+  :custom
+  (rust-format-on-save t)
+  (rust-most-treesitter-derive t))
+(use-package terraform-mode)
+;; (use-package tree-sitter)
+;; (use-package tree-sitter-langs)
 
-;; A few more useful configurations...
+;; clean up whitespace on edited lines only
+(use-package ws-butler
+  :init
+  (setq ws-butler-keep-whitespace-before-point nil)
+  :config
+  (ws-butler-global-mode))
+
+(use-package restclient)
+(use-package verb)
+(use-package org
+  :mode
+  ("\\.org\\'" . org-mode)
+  :bind (("C-c a" . org-agenda)
+	 ("C-c b" . org-switchb)
+	 ("C-c c" . org-capture)
+	 ("C-c l" . org-store-link)
+	 ("C-c t" . org-todo-list))
+  ;; This can't be done with bind/map
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
+  (setq org-agenda-files '("~/org" "~/org/daily")))
+(use-package org-roam
+  :custom
+  (org-roam-directory (file-truename "~/org"))
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+	 ("C-c n d" . org-roam-dailies-goto-date)
+	 ("C-c n t" . org-roam-dailies-goto-today)
+         :map org-mode-map
+         ("C-M-i"    . completion-at-point))
+  :config
+  (org-roam-db-autosync-mode))
+
+;; More useful configuration...
 (use-package emacs
   :init
   ;; Add prompt indicator to `completing-read-multiple'.
@@ -277,9 +315,9 @@
   (setq inhibit-startup-message t)
 
   ;; Disable unwanted UI elements
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
+  (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (setq visible-bell t)
 
   ;; Enable column numbers in modeline
@@ -296,6 +334,24 @@
   ;; Save & restore open buffers, but not frames & position
   (setq desktop-restore-frames nil)
   (desktop-save-mode t)
+
+  ;; Weeks start on Monday.
+  (setq calendar-week-start-day 1)
+
+  ;; Don't require a double space to end a sentence.
+  (setq sentence-end-double-space nil)
+
+  ;; Make URL links open using WSL / Windows
+  (setq
+   cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
+   cmdExeArgs '("/c" "start" ""))
+  (setq
+   browse-url-generic-program  cmdExeBin
+   browse-url-generic-args     cmdExeArgs
+   browse-url-browser-function 'browse-url-generic)
+
+  ;; Fix pasting into Windows from emacs kill buffer
+  (setq select-active-regions nil)
 
   ;; Use theme
   (setq modus-themes-mode-line '(accented borderless padded))
@@ -316,6 +372,9 @@
   (setq modus-themes-paren-match '(bold intense))
 
   (load-theme 'modus-vivendi t)
+
+  ;; Font stuff (N/A for -nw)
+  (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120)
   )
 
 (custom-set-variables
@@ -323,7 +382,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(ccls which-key editorconfig vertico use-package)))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
