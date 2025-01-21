@@ -1,5 +1,4 @@
-oh-my-fish/plugin-bang-bang
-evanlucas/fish-kubectl-completions
 jorgebucaran/fisher
-PatrickF1/fzf.fish
-ilancosman/tide@v5
+ilancosman/tide@v6
+oh-my-fish/plugin-bang-bang
+patrickf1/fzf.fish
