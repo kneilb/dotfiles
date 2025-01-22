@@ -266,10 +266,15 @@
 	 ("C-c c" . org-capture)
 	 ("C-c l" . org-store-link)
 	 ("C-c t" . org-todo-list))
-  ;; This can't be done with bind/map
   :config
+  ;; Enable other languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
+  ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-agenda-files '("~/org" "~/org/daily")))
+
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/org"))
