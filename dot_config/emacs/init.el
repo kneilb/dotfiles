@@ -172,7 +172,7 @@
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-)
+  )
 
 ;; Embark (Minibuffer actions)
 (use-package embark
@@ -238,14 +238,23 @@
 ;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
 ;; 	 (lambda () (require 'ccls) (lsp))))
 (use-package crontab-mode)
+(use-package dockerfile-mode
+  :mode ("Dockerfile.*" . dockerfile-mode))
 (use-package graphviz-dot-mode)
-(use-package mermaid-mode)
+(use-package json-mode
+  :mode (("\\.json\\'" . json-mode)))
+(use-package mermaid-mode
+  :mode (("\\.mmd\\'" . mermaid-mode)
+         ("\\.mermaid\\'" . mermaid-mode)))
 (use-package nix-mode)
 (use-package rust-mode
   :custom
   (rust-format-on-save t)
   (rust-most-treesitter-derive t))
 (use-package terraform-mode)
+(use-package yaml-mode
+  :mode (("\\.ya?ml\\'" . yaml-mode)))
+
 ;; (use-package tree-sitter)
 ;; (use-package tree-sitter-langs)
 
@@ -256,8 +265,7 @@
   :config
   (ws-butler-global-mode))
 
-(use-package restclient)
-(use-package verb)
+;; org mode & org-roam
 (use-package org
   :mode
   ("\\.org\\'" . org-mode)
@@ -267,14 +275,14 @@
 	 ("C-c l" . org-store-link)
 	 ("C-c t" . org-todo-list))
   :config
-  ;; Enable other languages
+  ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)))
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  (setq org-agenda-files '("~/org" "~/org/daily")))
-
+  (setq org-agenda-files '("~/org" "~/org/daily")
+	org-edit-src-content-indentation 0))
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/org"))
@@ -288,6 +296,10 @@
          ("C-M-i"    . completion-at-point))
   :config
   (org-roam-db-autosync-mode))
+
+;; REST client stuff (verb is an extension of org)
+(use-package restclient)
+(use-package verb)
 
 ;; More useful configuration...
 (use-package emacs
