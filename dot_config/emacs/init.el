@@ -1,15 +1,19 @@
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/")
+	     ;; '("MELPA Stable" . "https://stable.melpa.org/packages/")
+	     )
+(unless (bound-and-true-p package--initialized)
+  (package-initialize)
+  (setq package-enable-at-startup nil))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; Always require use-package - it's needed for key bindings even when everything's precompiled
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 ;; Always install things we try to configure
 (require 'use-package-ensure)
