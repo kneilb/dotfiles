@@ -259,8 +259,30 @@
 (use-package yaml-mode
   :mode (("\\.ya?ml\\'" . yaml-mode)))
 
-;; (use-package tree-sitter)
-;; (use-package tree-sitter-langs)
+;; python: TODO tidy up!
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :init
+  (setq python-shell-prompt-detect-failure-warning nil)
+)
+(use-package blacken
+  :ensure t
+  :if (executable-find "black")
+  :after python
+  :commands (blacken-mode blacken-buffer)
+  :diminish)
+(use-package py-isort
+  :ensure t
+  :if (executable-find "isort")
+  :after python
+  :commands (py-isort-buffer py-isort-before-save))
+
+;; Tree-sitter
+;; Improved syntax highlighting
+(use-package tree-sitter)
+(use-package tree-sitter-langs)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
@@ -278,11 +300,14 @@
 	 ("C-c c" . org-capture)
 	 ("C-c l" . org-store-link)
 	 ("C-c t" . org-todo-list))
+  :init
+  (setq org-confirm-babel-evaluate nil)
   :config
   ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t)))
+   '((python . t)
+     (shell . t)))
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-agenda-files '("~/org" "~/org/daily")
@@ -302,7 +327,6 @@
   (org-roam-db-autosync-mode))
 
 ;; REST client stuff (verb is an extension of org)
-(use-package restclient)
 (use-package verb)
 
 ;; More useful configuration...
