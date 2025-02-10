@@ -372,6 +372,11 @@
   ;; (setq fill-column 120)
   ;; (global-display-fill-column-indicator-mode nil)
 
+  ;; ediff
+  (setq ediff-keep-variants nil)
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
   ;; Revert Dired & other buffers
   (setq global-auto-revert-non-file-buffers t)
   ;; (global-auto-revert-mode 1)
