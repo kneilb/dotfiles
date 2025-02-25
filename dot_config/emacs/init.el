@@ -1,8 +1,12 @@
 (require 'package)
+;; NB. Need melpa for doom-modeline today (2025-02-25)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/")
-	     ;; '("MELPA Stable" . "https://stable.melpa.org/packages/")
 	     )
+(setq package-archive-priorities
+      '((gnu . 10)
+        (nongnu . 5)
+        (melpa . 1)))
 (unless (bound-and-true-p package--initialized)
   (package-initialize)
   (setq package-enable-at-startup nil))
@@ -310,8 +314,10 @@
      (shell . t)))
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  (setq org-agenda-files '("~/org" "~/org/daily")
-	org-edit-src-content-indentation 0))
+  (setq org-agenda-files '("~/org" "~/org/daily")) ;; Directories containing agenda files
+  (setq org-edit-src-content-indentation 0) ;; Don't indent source files
+  (setq org-startup-folded "nofold") ;; Start up with drawers folded, everything else shown
+  )
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/org"))
@@ -350,8 +356,8 @@
 
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
 
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
