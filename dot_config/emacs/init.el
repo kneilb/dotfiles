@@ -1,8 +1,7 @@
 (require 'package)
 ;; NB. Need melpa for doom-modeline today (2025-02-25)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     )
+	     '("melpa" . "https://melpa.org/packages/"))
 (setq package-archive-priorities
       '((gnu . 10)
         (nongnu . 5)
@@ -22,6 +21,9 @@
 ;; Always install things we try to configure
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+(setq custom-file "~/.config/emacs/custom.el")
+(load custom-file)
 
 ;; (use-package all-the-icons)
 
@@ -429,16 +431,3 @@
   ;; Font stuff (N/A for -nw)
   (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120)
   )
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
