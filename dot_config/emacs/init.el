@@ -271,6 +271,8 @@
   :config
   (editorconfig-mode 1))
 
+;; Tree-sitter is built in now (treesit-)
+
 ;; Which-key
 (use-package which-key
   :init (which-key-mode)
@@ -319,12 +321,6 @@
   :after python
   :commands (py-isort-buffer py-isort-before-save))
 
-;; Tree-sitter
-;; Improved syntax highlighting
-(use-package tree-sitter)
-(use-package tree-sitter-langs)
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
