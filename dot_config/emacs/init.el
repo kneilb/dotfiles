@@ -331,7 +331,8 @@
   :init
   (setq ws-butler-keep-whitespace-before-point nil)
   :config
-  (ws-butler-global-mode))
+  (ws-butler-global-mode)
+  :diminish)
 
 ;; org mode & org-roam
 (use-package org
