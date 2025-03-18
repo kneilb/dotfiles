@@ -336,6 +336,14 @@
     :args '("/dev/stdin"))
   )
 
+;; TODO: worth keeping?
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview)
+  :config
+  (setq kubernetes-poll-frequency 3600
+        kubernetes-redraw-frequency 3600))
+
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
   :init
