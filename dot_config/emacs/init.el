@@ -255,7 +255,12 @@
 (use-package magit
   :commands magit-status
   :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  (magit-define-global-key-bindings nil)
+  :bind
+  ("C-x g" . magit-status)
+  ("C-c g" . magit-dispatch)
+  ("C-c f" . magit-file-dispatch))
 
 ;; Support diminishing minor modes
 (use-package diminish)
