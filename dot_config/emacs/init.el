@@ -271,6 +271,10 @@
   :config
   (editorconfig-mode 1))
 
+;; Used by go config
+;; TODO: wanted?
+(use-package reformatter)
+;; (use-package lsp-mode)
 ;; Tree-sitter is built in now (treesit-)
 
 ;; Which-key
@@ -281,46 +285,56 @@
   (setq which-key-idle-delay 0.3))
 
 ;; Languages etc
-;; Use Eglot (built in) instead of ccls
-;; (use-package ccls
-;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-;; 	 (lambda () (require 'ccls) (lsp))))
 (use-package crontab-mode)
-(use-package dockerfile-mode
-  :mode ("Dockerfile.*" . dockerfile-mode))
+(use-package dockerfile-ts-mode
+  :mode ("Dockerfile.*" . dockerfile-ts-mode))
 (use-package graphviz-dot-mode)
-(use-package json-mode
-  :mode (("\\.json\\'" . json-mode)))
+(use-package json-ts-mode
+  :mode (("\\.json\\'" . json-ts-mode)))
 (use-package mermaid-mode
   :mode (("\\.mmd\\'" . mermaid-mode)
          ("\\.mermaid\\'" . mermaid-mode)))
 (use-package nix-mode)
-(use-package rust-mode
+(use-package rust-ts-mode
   :custom
-  (rust-format-on-save t)
-  (rust-most-treesitter-derive t))
+  (rust-format-on-save t))
 (use-package terraform-mode)
-(use-package yaml-mode
+(use-package yaml-ts-mode
   :mode (("\\.ya?ml\\'" . yaml-mode)))
 
 ;; python: TODO tidy up!
-(use-package python
-  :mode ("\\.py\\'" . python-mode)
+(use-package python-ts-mode
+  :ensure nil ;; built in
+  :mode ("\\.py\\'" . python-ts-mode)
   :init
   (setq python-shell-prompt-detect-failure-warning nil)
 )
 (use-package blacken
   :ensure t
   :if (executable-find "black")
-  :after python
+  :after python-ts-mode
   :commands (blacken-mode blacken-buffer)
   :diminish)
 (use-package py-isort
   :ensure t
   :if (executable-find "isort")
-  :after python
+  :after python-ts-mode
   :commands (py-isort-buffer py-isort-before-save))
 
+(use-package go-ts-mode
+  :hook
+  (go-ts-mode . go-format-on-save-mode)
+  :init
+  ;; (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
+  ;; (add-to-list 'treesit-language-source-alist '(gomod "https://github.com/camdencheek/tree-sitter-go-mod"))
+  ;; (dolist (lang '(go gomod)) (treesit-install-language-grammar lang))
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+  (add-to-list 'auto-mode-alist '("/go\\.mod\\'" . go-mod-ts-mode))
+  :config
+  (reformatter-define go-format
+    :program "goimports"
+    :args '("/dev/stdin"))
+  )
 
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
