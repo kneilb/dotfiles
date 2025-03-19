@@ -336,6 +336,10 @@
     :args '("/dev/stdin"))
   )
 
+;; eglot (LSP integration)
+(use-package eglot
+  :hook (rust-ts-mode go-ts-mode))
+
 ;; TODO: worth keeping?
 (use-package kubernetes
   :ensure t
