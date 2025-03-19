@@ -451,6 +451,11 @@
   ;; Don't require a double space to end a sentence.
   (setq sentence-end-double-space nil)
 
+  ;; spell checking
+  (setq ispell-dictionary "en_GB")
+  ;; (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
   ;; Make URL links open using WSL / Windows
   (setq
    cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
