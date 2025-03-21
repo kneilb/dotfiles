@@ -286,63 +286,108 @@
   :config
   (editorconfig-mode 1))
 
-;; Used by go config
-;; TODO: wanted?
-(use-package reformatter)
-;; (use-package lsp-mode)
-;; Tree-sitter is built in now (treesit-)
-
-;; Languages etc
-(use-package crontab-mode)
-(use-package dockerfile-ts-mode
-  :mode ("Dockerfile.*" . dockerfile-ts-mode))
-(use-package graphviz-dot-mode)
-(use-package json-ts-mode
-  :mode (("\\.json\\'" . json-ts-mode)))
-(use-package mermaid-mode
-  :mode (("\\.mmd\\'" . mermaid-mode)
-         ("\\.mermaid\\'" . mermaid-mode)))
-(use-package nix-mode)
-(use-package rust-ts-mode
-  :custom
-  (rust-format-on-save t))
-(use-package terraform-mode)
-(use-package yaml-ts-mode
-  :mode (("\\.ya?ml\\'" . yaml-mode)))
-
-;; python: TODO tidy up!
-(use-package python-ts-mode
-  :ensure nil ;; built in
-  :mode ("\\.py\\'" . python-ts-mode)
-  :init
-  (setq python-shell-prompt-detect-failure-warning nil)
+;; Formatting - used by go & python
+(use-package reformatter
+  :pin gnu
 )
-(use-package blacken
-  :ensure t
-  :if (executable-find "black")
-  :after python-ts-mode
-  :commands (blacken-mode blacken-buffer)
-  :diminish)
-(use-package py-isort
-  :ensure t
-  :if (executable-find "isort")
-  :after python-ts-mode
-  :commands (py-isort-buffer py-isort-before-save))
+
+;; NON TREE SITTER LANGUAGES
+(use-package terraform-mode
+  :ensure terraform-mode
+  :pin melpa)
+
+;; TREE SITTER LANGUAGES
+;; to build the grammars:
+;; (dolist (lang '(dockerfile go gomod json markdown markdown-inline python rust yaml)) (treesit-install-language-grammar lang))
+
+(use-package dockerfile-ts-mode
+  :ensure dockerfile-ts-mode
+  :after treesit
+  :mode "\\Dockerfile.*\\'"
+  :defer 't
+  :init
+  (add-to-list 'treesit-language-source-alist '(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "main" "src")))
 
 (use-package go-ts-mode
+  :ensure go-ts-mode
+  :after (treesit reformatter)
+  :defer 't
   :hook
   (go-ts-mode . go-format-on-save-mode)
+  :config
+  :mode
+  ("\\.go\\'" . go-ts-mode)
+  ("/go\\.mod\\'" . go-mod-ts-mode)
   :init
-  ;; (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
-  ;; (add-to-list 'treesit-language-source-alist '(gomod "https://github.com/camdencheek/tree-sitter-go-mod"))
-  ;; (dolist (lang '(go gomod)) (treesit-install-language-grammar lang))
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
-  (add-to-list 'auto-mode-alist '("/go\\.mod\\'" . go-mod-ts-mode))
+  (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go" "master" "src"))
+  (add-to-list 'treesit-language-source-alist '(gomod "https://github.com/camdencheek/tree-sitter-go-mod" "main" "src"))
   :config
   (reformatter-define go-format
     :program "goimports"
     :args '("/dev/stdin"))
   )
+
+(use-package json-ts-mode
+  :ensure json-ts-mode
+  :after treesit
+  :mode "\\(?:\\(?:\\.\\(?:b\\(?:\\(?:abel\\|ower\\)rc\\)\\|json\\(?:ld\\)?\\)\\|composer\\.lock\\)\\'\\)"
+  :defer 't
+  :init
+  (add-to-list 'treesit-language-source-alist '(json "https://github.com/tree-sitter/tree-sitter-json" "master" "src")))
+
+;; TODO not getting activated...
+;; (use-package markdown-ts-mode
+;;   :ensure nil
+;;   :after treesit
+;;   :mode "\\.md\\'"
+;;   :defer 't
+;;   :init
+;;   (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+;;   (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
+;;   :config
+;;   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
+;; )
+
+(use-package python-ts-mode
+  :ensure nil
+  :after (treesit reformatter)
+  :mode "\\.py\\'"
+  :init
+  (add-to-list 'treesit-language-source-alist '(python "https://github.com/tree-sitter/tree-sitter-python" "master" "src"))
+  (setq python-shell-prompt-detect-failure-warning nil)
+  :config
+  (reformatter-define ruff-format
+    :program "ruff"
+    :args `("format" "--stdin-filename" ,buffer-file-name "-"))
+)
+
+(use-package rust-ts-mode
+  :ensure rust-ts-mode
+  :after treesit
+  :mode "\\.rs\\'"
+  :defer 't
+  :init
+  (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src"))
+  :custom
+  (rust-indent-level 2)
+)
+
+(use-package yaml-ts-mode
+  :ensure yaml-ts-mode
+  :after treesit
+  :mode "\\.ya?ml\\'"
+  :defer 't
+  :init
+  (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src"))
+)
+
+;; Use ruff to provide linting / errors via flymake
+(use-package flymake-ruff
+  :pin gnu
+  :hook (python-base-mode . (lambda ()
+                              (flymake-mode 1)
+                              (flymake-ruff-load)))
+)
 
 ;; eglot (LSP integration)
 (use-package eglot
