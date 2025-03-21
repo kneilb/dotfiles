@@ -366,6 +366,15 @@
   (ws-butler-global-mode)
   :diminish)
 
+;; spell checking (better than flyspell!)
+(use-package jinx
+  :pin gnu
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages))
+  :config
+  (setq jinx-languages "en_GB"))
+
 ;; org mode & org-roam
 (use-package org
   :pin gnu
@@ -469,7 +478,7 @@
   ;; Don't require a double space to end a sentence.
   (setq sentence-end-double-space nil)
 
-  ;; spell checking
+  ;; spell checking - use jinx instead
   (setq ispell-dictionary "en_GB")
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
   ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
