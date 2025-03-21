@@ -347,7 +347,7 @@
 ;; eglot (LSP integration)
 (use-package eglot
   :pin gnu
-  :hook (rust-ts-mode go-ts-mode))
+  :hook ((rust-ts-mode go-ts-mode) . eglot-ensure))
 
 ;; TODO: worth keeping?
 (use-package kubernetes
