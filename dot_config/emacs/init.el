@@ -393,13 +393,14 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)
-     (shell . t)))
+     (shell . t)
+     (verb . t)))
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-agenda-files '("~/org" "~/org/daily")) ;; Directories containing agenda files
   (setq org-edit-src-content-indentation 0) ;; Don't indent source files
-  (setq org-startup-folded "nofold") ;; Start up with drawers folded, everything else shown
-  )
+  (setq org-startup-folded "nofold")) ;; Start up with drawers folded, everything else shown
+
 (use-package org-roam
   :pin gnu
   :custom
