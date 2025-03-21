@@ -250,6 +250,14 @@
   ("C-c n l" . consult-org-roam-forward-links)
   ("C-c n r" . consult-org-roam-search))
 
+;; Which-key
+(use-package which-key
+  :pin gnu
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
 ;; Rainbow delimiters in programming modes
 (use-package rainbow-delimiters
   :pin nongnu
@@ -283,14 +291,6 @@
 (use-package reformatter)
 ;; (use-package lsp-mode)
 ;; Tree-sitter is built in now (treesit-)
-
-;; Which-key
-(use-package which-key
-  :pin gnu
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 0.3))
 
 ;; Languages etc
 (use-package crontab-mode)
