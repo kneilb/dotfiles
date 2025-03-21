@@ -28,11 +28,13 @@
 ;; (use-package all-the-icons)
 
 (use-package doom-modeline
+  :pin melpa
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 30)))
 
 ;; Vertico (vertical interactive completion).
 (use-package vertico
+  :pin gnu
   :init
   (vertico-mode)
 
@@ -51,11 +53,13 @@
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
+  :pin gnu
   :init
   (savehist-mode))
 
 ;; Use the `orderless' completion style.
 (use-package orderless
+  :pin gnu
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
@@ -66,6 +70,7 @@
 
 ;; Marginalia (rich annotations in the minibuffer)
 (use-package marginalia
+  :pin gnu
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -80,6 +85,7 @@
 
 ;; Consult (Improved search and navigation commands)
 (use-package consult
+  :pin gnu
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
@@ -186,20 +192,17 @@
 
 ;; Embark (Minibuffer actions)
 (use-package embark
-  :ensure t
-
+  :pin gnu
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("M-." . embark-dwim)        ;; good alternative: M-. (was C-;)
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
   :init
-
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
 
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -208,7 +211,7 @@
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t
+  :pin gnu
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
@@ -220,7 +223,7 @@
 ;; Get over it - use narrowing keys (<r) to move to org-roam buffers!
 ;; Maybe just disable -buffer-after-buffers??
 (use-package consult-org-roam
-   :ensure t
+   :pin melpa
    ;; :after org-roam
    :init
    (require 'consult-org-roam)
@@ -249,10 +252,12 @@
 
 ;; Rainbow delimiters in programming modes
 (use-package rainbow-delimiters
+  :pin nongnu
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Magit for git interactions
 (use-package magit
+  :pin nongnu
   :commands magit-status
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
@@ -263,10 +268,12 @@
   ("C-c f" . magit-file-dispatch))
 
 ;; Support diminishing minor modes
-(use-package diminish)
+(use-package diminish
+  :pin nongnu)
 
 ;; Editorconfig, for sanity
 (use-package editorconfig
+  :pin nongnu
   :diminish editorconfig-mode
   :config
   (editorconfig-mode 1))
@@ -279,6 +286,7 @@
 
 ;; Which-key
 (use-package which-key
+  :pin gnu
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -338,11 +346,12 @@
 
 ;; eglot (LSP integration)
 (use-package eglot
+  :pin gnu
   :hook (rust-ts-mode go-ts-mode))
 
 ;; TODO: worth keeping?
 (use-package kubernetes
-  :ensure t
+  :pin melpa
   :commands (kubernetes-overview)
   :config
   (setq kubernetes-poll-frequency 3600
@@ -350,6 +359,7 @@
 
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
+  :pin nongnu
   :init
   (setq ws-butler-keep-whitespace-before-point nil)
   :config
@@ -358,6 +368,8 @@
 
 ;; org mode & org-roam
 (use-package org
+  :pin gnu
+  :after verb
   :mode
   ("\\.org\\'" . org-mode)
   :bind (("C-c a" . org-agenda)
@@ -380,6 +392,7 @@
   (setq org-startup-folded "nofold") ;; Start up with drawers folded, everything else shown
   )
 (use-package org-roam
+  :pin gnu
   :custom
   (org-roam-directory (file-truename "~/org"))
   (org-roam-completion-everywhere t)
@@ -394,7 +407,8 @@
   (org-roam-db-autosync-mode))
 
 ;; REST client stuff (verb is an extension of org)
-(use-package verb)
+(use-package verb
+  :pin melpa)
 
 ;; More useful configuration...
 (use-package emacs
