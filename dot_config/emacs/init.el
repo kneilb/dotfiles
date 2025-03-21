@@ -22,8 +22,8 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(setq custom-file "~/.config/emacs/custom.el")
-(load custom-file)
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file 'noerror 'nomessage)
 
 ;; (use-package all-the-icons)
 
