@@ -36,20 +36,7 @@
 (use-package vertico
   :pin gnu
   :init
-  (vertico-mode)
-
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
-  )
+  (vertico-mode))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -183,12 +170,7 @@
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
-
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-  )
+  (setq consult-narrow-key "<"))
 
 ;; Embark (Minibuffer actions)
 (use-package embark
@@ -243,7 +225,7 @@
    consult-org-roam-forward-links
    :preview-key "M-.")
   :bind
-  ;; Define some convenient keybindings as an addition
+  ;; Define some convenient key bindings as an addition
   ("C-c n e" . consult-org-roam-file-find)
   ("C-c n b" . consult-org-roam-backlinks)
   ("C-c n B" . consult-org-roam-backlinks-recursive)
@@ -288,8 +270,7 @@
 
 ;; Formatting - used by go & python
 (use-package reformatter
-  :pin gnu
-)
+  :pin gnu)
 
 ;; NON TREE SITTER LANGUAGES
 (use-package terraform-mode
@@ -324,8 +305,7 @@
   :config
   (reformatter-define go-format
     :program "goimports"
-    :args '("/dev/stdin"))
-  )
+    :args '("/dev/stdin")))
 
 (use-package json-ts-mode
   :ensure json-ts-mode
@@ -345,8 +325,7 @@
 ;;   (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
 ;;   (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
 ;;   :config
-;;   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
-;; )
+;;   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode)))
 
 (use-package python-ts-mode
   :ensure nil
@@ -358,8 +337,7 @@
   :config
   (reformatter-define ruff-format
     :program "ruff"
-    :args `("format" "--stdin-filename" ,buffer-file-name "-"))
-)
+    :args `("format" "--stdin-filename" ,buffer-file-name "-")))
 
 (use-package rust-ts-mode
   :ensure rust-ts-mode
@@ -369,8 +347,7 @@
   :init
   (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src"))
   :custom
-  (rust-indent-level 2)
-)
+  (rust-indent-level 2))
 
 (use-package yaml-ts-mode
   :ensure yaml-ts-mode
@@ -378,16 +355,14 @@
   :mode "\\.ya?ml\\'"
   :defer 't
   :init
-  (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src"))
-)
+  (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src")))
 
 ;; Use ruff to provide linting / errors via flymake
 (use-package flymake-ruff
   :pin gnu
   :hook (python-base-mode . (lambda ()
                               (flymake-mode 1)
-                              (flymake-ruff-load)))
-)
+                              (flymake-ruff-load))))
 
 ;; eglot (LSP integration)
 (use-package eglot
@@ -398,8 +373,7 @@
          ("C-c e a" . eglot-code-actions)
          ("C-c e o" . eglot-code-actions-organize-imports)
          ("C-c e r" . eglot-rename)
-         ("C-c e f" . eglot-format))
-)
+         ("C-c e f" . eglot-format)))
 
 ;; TODO: worth keeping?
 (use-package kubernetes
@@ -571,5 +545,4 @@
   (load-theme 'modus-vivendi t)
 
   ;; Font stuff (N/A for -nw)
-  (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120)
-  )
+  (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120))
