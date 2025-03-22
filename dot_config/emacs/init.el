@@ -259,7 +259,7 @@
 
 ;; Support diminishing minor modes
 (use-package diminish
-  :pin nongnu)
+  :pin melpa)
 
 ;; Editorconfig, for sanity
 (use-package editorconfig
