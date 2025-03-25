@@ -490,6 +490,12 @@
   ;; (setq fill-column 120)
   ;; (global-display-fill-column-indicator-mode nil)
 
+  ;; I didn't even know this was possible - just use the region instead!
+  (setq shift-select-mode nil)
+
+  ;; There's no need to be quite so paranoid...!
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
   ;; ediff
   (setq ediff-keep-variants nil)
   (setq ediff-split-window-function 'split-window-horizontally)
