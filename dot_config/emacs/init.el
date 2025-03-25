@@ -250,8 +250,10 @@
   :pin nongnu
   :commands magit-status
   :custom
+  (magit-diff-refine-hunk t)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-define-global-key-bindings nil)
+  (magit-log-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)) ;; Show dates, not vagueness
   :bind
   ("C-x g" . magit-status)
   ("C-c g" . magit-dispatch)
