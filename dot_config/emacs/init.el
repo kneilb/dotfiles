@@ -427,6 +427,7 @@
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq
    org-agenda-files '("~/org" "~/org/daily") ;; Directories containing agenda files
+   org-attach-use-property-inheritance t ;; Search up hierarchy for attachment dirs
    org-edit-src-content-indentation 0 ;; Don't indent source files
    org-startup-folded "nofold")) ;; Start up with drawers folded, everything else shown
 
