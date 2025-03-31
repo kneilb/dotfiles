@@ -554,4 +554,7 @@
   (load-theme 'modus-vivendi t)
 
   ;; Font stuff (N/A for -nw)
-  (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120))
+  (set-face-attribute 'default nil :family "MesloLGS Nerd Font" :height 120)
+
+  (add-to-list 'load-path (expand-file-name "machines" user-emacs-directory))
+  (require (intern (system-name)) nil 'noerror))
