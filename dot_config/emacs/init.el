@@ -272,7 +272,7 @@
 
 ;; Formatting - used by go & python
 (use-package reformatter
-  :pin gnu)
+  :pin nongnu)
 
 ;; NON TREE SITTER LANGUAGES
 (use-package terraform-mode
@@ -361,7 +361,7 @@
 
 ;; Use ruff to provide linting / errors via flymake
 (use-package flymake-ruff
-  :pin gnu
+  :pin melpa
   :hook (python-base-mode . (lambda ()
                               (flymake-mode 1)
                               (flymake-ruff-load))))
