@@ -285,7 +285,8 @@
 
 ;; TREE SITTER LANGUAGES
 ;; to build the grammars:
-;; (dolist (lang '(dockerfile go gomod json markdown markdown-inline python rust yaml)) (treesit-install-language-grammar lang))
+;; (dolist (lang '(dockerfile go gomod json python rust yaml)) (treesit-install-language-grammar lang))
+;; markdown markdown-inline
 
 (use-package dockerfile-ts-mode
   :ensure dockerfile-ts-mode
