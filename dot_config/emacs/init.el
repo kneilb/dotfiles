@@ -279,6 +279,10 @@
   :ensure terraform-mode
   :pin melpa)
 
+(use-package jinja2-mode
+  :ensure jinja2-mode
+  :pin nongnu)
+
 ;; TREE SITTER LANGUAGES
 ;; to build the grammars:
 ;; (dolist (lang '(dockerfile go gomod json markdown markdown-inline python rust yaml)) (treesit-install-language-grammar lang))
