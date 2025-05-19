@@ -354,7 +354,7 @@
 (use-package yaml-ts-mode
   :ensure yaml-ts-mode
   :after treesit
-  :mode "\\.ya?ml\\'"
+  :mode "\\.ya?ml.*\\'"
   :defer 't
   :init
   (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src")))
