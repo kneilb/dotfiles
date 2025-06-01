@@ -539,14 +539,15 @@
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
   ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
-  ;; Make URL links open using WSL / Windows
-  (setq
-   cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
-   cmdExeArgs '("/c" "start" ""))
-  (setq
-   browse-url-generic-program  cmdExeBin
-   browse-url-generic-args     cmdExeArgs
-   browse-url-browser-function 'browse-url-generic)
+  ;; Make URL links open when using WSL / Windows
+  (when (string-match "-[Mm]icrosoft" operating-system-release)
+    (setq
+     cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
+     cmdExeArgs '("/c" "start" ""))
+    (setq
+     browse-url-generic-program  cmdExeBin
+     browse-url-generic-args     cmdExeArgs
+     browse-url-browser-function 'browse-url-generic))
 
   ;; Fix pasting into Windows from emacs kill buffer
   (setq select-active-regions nil)
