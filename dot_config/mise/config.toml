@@ -1,0 +1,6 @@
+[tools]
+azure-cli = "latest"
+gcloud = "latest"
+helm = "3.17"
+kubectl = "1.32"
+terraform = "1.9.6"
