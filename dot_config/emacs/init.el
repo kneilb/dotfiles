@@ -275,18 +275,23 @@
   :pin nongnu)
 
 ;; NON TREE SITTER LANGUAGES
-(use-package terraform-mode
-  :ensure terraform-mode
-  :pin melpa)
-
 (use-package jinja2-mode
   :ensure jinja2-mode
   :pin nongnu)
 
+(use-package robot-mode
+  :ensure robot-mode
+  :pin melpa)
+
+(use-package terraform-mode
+  :ensure terraform-mode
+  :pin melpa)
+
+;; TODO poly-ansible for Jinja2 + YAML polymode!
+
 ;; TREE SITTER LANGUAGES
 ;; to build the grammars:
-;; (dolist (lang '(dockerfile go gomod json python rust yaml)) (treesit-install-language-grammar lang))
-;; markdown markdown-inline
+;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
 (use-package dockerfile-ts-mode
   :ensure dockerfile-ts-mode
@@ -352,7 +357,7 @@
   :mode "\\.rs\\'"
   :defer 't
   :init
-  (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src"))
+  (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "v0.20.3" "src"))
   :custom
   (rust-indent-level 2))
 
