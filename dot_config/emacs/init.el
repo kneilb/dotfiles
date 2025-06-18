@@ -293,11 +293,17 @@
 ;; to build the grammars:
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
+(use-package bash-ts-mode
+  :ensure nil
+  :after treesit
+  :defer 't
+  :mode ("\\.sh\\'" "\\.env\\'"))
+
 (use-package dockerfile-ts-mode
   :ensure dockerfile-ts-mode
   :after treesit
-  :mode "\\Dockerfile.*\\'"
   :defer 't
+  :mode "\\Dockerfile.*\\'"
   :init
   (add-to-list 'treesit-language-source-alist '(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "main" "src")))
 
@@ -307,7 +313,6 @@
   :defer 't
   :hook
   (go-ts-mode . go-format-on-save-mode)
-  :config
   :mode
   ("\\.go\\'" . go-ts-mode)
   ("/go\\.mod\\'" . go-mod-ts-mode)
@@ -430,7 +435,8 @@
   ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t)
+   '(;; (go . t) needs ob-go, CBA right now
+     (python . t)
      (shell . t)
      (verb . t)))
   ;; This can't be done with bind/map
