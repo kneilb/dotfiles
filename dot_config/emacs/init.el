@@ -445,6 +445,7 @@
    org-agenda-files '("~/org" "~/org/daily") ;; Directories containing agenda files
    org-attach-use-inheritance t ;; Search up hierarchy for attachment dirs
    org-edit-src-content-indentation 0 ;; Don't indent source files
+   org-M-RET-may-split-line '((default . nil)) ;; Don't split a line when pressing M-RET
    org-startup-folded "nofold")) ;; Start up with drawers folded, everything else shown
 
 (use-package org-roam
