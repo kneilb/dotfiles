@@ -279,6 +279,12 @@
   :ensure jinja2-mode
   :pin nongnu)
 
+;; For YAML files with Jinja2 templating
+(use-package poly-ansible
+  :ensure poly-ansible
+  :pin melpa
+  :mode ("\\.yaml.j2\\'" . poly-ansible-mode))
+
 (use-package robot-mode
   :ensure robot-mode
   :pin melpa)
@@ -287,17 +293,16 @@
   :ensure terraform-mode
   :pin melpa)
 
-;; TODO poly-ansible for Jinja2 + YAML polymode!
-
 ;; TREE SITTER LANGUAGES
 ;; to build the grammars:
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
+;; This is really shell-ts-mode, and works for fish too.
 (use-package bash-ts-mode
   :ensure nil
   :after treesit
   :defer 't
-  :mode ("\\.sh\\'" "\\.env\\'"))
+  :mode ("\\.sh\\'" "\\.env\\'" "\\.fish\\'"))
 
 (use-package dockerfile-ts-mode
   :ensure dockerfile-ts-mode
@@ -369,7 +374,7 @@
 (use-package yaml-ts-mode
   :ensure yaml-ts-mode
   :after treesit
-  :mode "\\.ya?ml.*\\'"
+  :mode "\\.ya?ml\\'"
   :defer 't
   :init
   (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src")))
