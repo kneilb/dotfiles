@@ -302,7 +302,9 @@
   :ensure nil
   :after treesit
   :defer 't
-  :mode ("\\.sh\\'" "\\.env\\'" "\\.fish\\'"))
+  :mode ("\\.sh\\'" "\\.env\\'" "\\.fish\\'")
+  :init
+  (add-to-list 'treesit-language-source-alist '(bash "https://github.com/tree-sitter/tree-sitter-bash" "master" "src")))
 
 (use-package dockerfile-ts-mode
   :ensure dockerfile-ts-mode
