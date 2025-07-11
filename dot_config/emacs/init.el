@@ -276,21 +276,17 @@
 
 ;; NON TREE SITTER LANGUAGES
 (use-package jinja2-mode
-  :ensure jinja2-mode
   :pin nongnu)
 
 ;; For YAML files with Jinja2 templating
 (use-package poly-ansible
-  :ensure poly-ansible
   :pin melpa
   :mode ("\\.yaml.j2\\'" . poly-ansible-mode))
 
 (use-package robot-mode
-  :ensure robot-mode
   :pin melpa)
 
 (use-package terraform-mode
-  :ensure terraform-mode
   :pin melpa)
 
 ;; TREE SITTER LANGUAGES
@@ -307,7 +303,6 @@
   (add-to-list 'treesit-language-source-alist '(bash "https://github.com/tree-sitter/tree-sitter-bash" "master" "src")))
 
 (use-package dockerfile-ts-mode
-  :ensure dockerfile-ts-mode
   :after treesit
   :defer 't
   :mode "\\Dockerfile.*\\'"
@@ -315,7 +310,6 @@
   (add-to-list 'treesit-language-source-alist '(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "main" "src")))
 
 (use-package go-ts-mode
-  :ensure go-ts-mode
   :after (treesit reformatter)
   :defer 't
   :hook
@@ -332,7 +326,6 @@
     :args '("/dev/stdin")))
 
 (use-package json-ts-mode
-  :ensure json-ts-mode
   :after treesit
   :mode "\\(?:\\(?:\\.\\(?:b\\(?:\\(?:abel\\|ower\\)rc\\)\\|json\\(?:ld\\)?\\)\\|composer\\.lock\\)\\'\\)"
   :defer 't
@@ -364,7 +357,6 @@
     :args `("format" "--stdin-filename" ,buffer-file-name "-")))
 
 (use-package rust-ts-mode
-  :ensure rust-ts-mode
   :after treesit
   :mode "\\.rs\\'"
   :defer 't
@@ -374,7 +366,6 @@
   (rust-indent-level 2))
 
 (use-package yaml-ts-mode
-  :ensure yaml-ts-mode
   :after treesit
   :mode "\\.ya?ml\\'"
   :defer 't
