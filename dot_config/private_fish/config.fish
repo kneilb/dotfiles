@@ -1,5 +1,8 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+   # Commands to run in interactive sessions can go here
+   if type -q atuin
+      atuin init fish | source
+   end
 end
 
 # user paths
