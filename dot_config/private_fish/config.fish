@@ -1,8 +1,13 @@
 if status is-interactive
-   # Commands to run in interactive sessions can go here
-   if type -q atuin
-      atuin init fish | source
-   end
+    # Commands to run in interactive sessions can go here
+    if type -q atuin
+        atuin init fish | source
+    end
+
+    if type -q $HOME/.pyenv/bin/pyenv
+        fish_add_path $HOME/.pyenv/bin
+        pyenv init - | source
+    end
 end
 
 # user paths
