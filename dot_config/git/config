@@ -37,5 +37,12 @@
 	cmd = "code --wait $MERGED"
 [difftool "vscode"]
 	cmd = "code --wait --diff  $LOCAL $REMOTE"
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[url "git@ssh.dev.azure.com:v3/mediakind/"]
+	insteadOf = https://dev.azure.com/mediakind/
 [init]
 	defaultBranch = main
