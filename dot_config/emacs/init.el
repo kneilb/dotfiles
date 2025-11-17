@@ -451,8 +451,7 @@
   :custom
   (org-roam-directory (file-truename "~/org"))
   (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
+  :bind (("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
 	 ("C-c n d" . org-roam-dailies-goto-date)
 	 ("C-c n t" . org-roam-dailies-goto-today)
@@ -467,7 +466,8 @@
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
 ;;         a hookable mode anymore, you're advised to pick something yourself
 ;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :bind (("C-c n u" . org-roam-ui-open))
   :config
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
