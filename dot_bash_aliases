@@ -52,3 +52,6 @@ alias v2_ssh='ssh -i ~/.ssh/id_dsa_xpo3 root@$XPO3_IP_ADDR'
 
 # tmux alias - force 256 colours
 alias tmux='tmux -2'
+
+# python3-jinja2-cli provides a binary called jinja2, not j2 (from j2cli)
+alias j2='jinja2'
