@@ -442,7 +442,8 @@
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq
-   org-agenda-files '("~/org" "~/org/daily") ;; Directories containing agenda files
+   ;; Setting org-agenda-files like this makes org-todo-list etc open every single file!
+   ;; org-agenda-files '("~/org" "~/org/daily") ;; Directories containing agenda files
    org-attach-use-inheritance t ;; Search up hierarchy for attachment dirs
    org-edit-src-content-indentation 0 ;; Don't indent source files
    ;; org-M-RET-may-split-line '((default . nil)) ;; Don't split a line when pressing M-RET
