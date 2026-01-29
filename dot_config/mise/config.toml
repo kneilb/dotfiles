@@ -1,4 +1,5 @@
 [tools]
+aws = "latest"
 azure-cli = "latest"
 gcloud = "latest"
 helm = "3.17"
