@@ -431,6 +431,9 @@
 	 ("C-c t" . org-todo-list))
   :init
   (setq org-confirm-babel-evaluate nil)
+  :custom
+  ;; Enable exporting to Markdown (via C-c C-e m m)
+  (org-export-backends '(ascii html icalendar latex md odt))
   :config
   ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
