@@ -484,6 +484,10 @@
 (use-package verb
   :pin melpa)
 
+;; For exporting org-mode to Slack format
+(use-package ox-slack
+  :pin melpa)
+
 ;; More useful configuration...
 (use-package emacs
   :ensure nil
