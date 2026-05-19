@@ -530,7 +530,7 @@
   ;; (global-display-fill-column-indicator-mode nil)
 
   ;; Indent with spaces by default. Tabs in Makefiles is handled by makefile-mode
-  (setq indent-tabs-mode nil)
+  (setq-default indent-tabs-mode nil)
 
   ;; I didn't even know this was possible - just use the region instead!
   (setq shift-select-mode nil)
