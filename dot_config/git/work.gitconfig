@@ -1,0 +1,5 @@
+[user]
+	name = Neil Burningham
+	email = neil.burningham@mediakind.com
+[url "git@ssh.dev.azure.com:v3/mediakind/"]
+	insteadOf = https://dev.azure.com/mediakind/
