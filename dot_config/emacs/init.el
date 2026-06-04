@@ -45,13 +45,14 @@
 ;; Use the `orderless' completion style.
 (use-package orderless
   :pin gnu
-  :init
+  :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil) ;; Disable defaults, use our settings
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
 ;; Marginalia (rich annotations in the minibuffer)
 (use-package marginalia
@@ -497,74 +498,78 @@
 ;; More useful configuration...
 (use-package emacs
   :ensure nil
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+  :custom
+  ;; Begin VERTICO stuff
+  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+  ;; to switch display modes.
+  (context-menu-mode t)
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t)
+  ;; This setting is useful beyond Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  ;; End VERTICO stuff
 
   ;; Disable splash screen and startup message
-  (setq inhibit-startup-message t)
+  (inhibit-startup-message t)
 
   ;; Try to flash the frame to represent a bell.
-  (setq visible-bell t)
+  (visible-bell t)
 
   ;; Enable column numbers in modeline
-  (column-number-mode)
+  (column-number-mode t)
+
   ;; (global-display-line-numbers-mode t)
 
-  ;; (setq fill-column 120)
-  ;; (global-display-fill-column-indicator-mode nil)
+  (fill-column 120)
+  (global-display-fill-column-indicator-mode t)
 
   ;; Indent with spaces by default. Tabs in Makefiles is handled by makefile-mode
-  (setq-default indent-tabs-mode nil)
+  (indent-tabs-mode nil)
 
   ;; I didn't even know this was possible - just use the region instead!
-  (setq shift-select-mode nil)
+  (shift-select-mode nil)
+
+  ;; ediff
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+
+  ;; Revert Dired & Magit buffers
+  (global-auto-revert-non-file-buffers t)
+  ;; (global-auto-revert-mode t)
+
+  ;; Save & restore open buffers, but not frames & position
+  (desktop-restore-frames nil)
+  (desktop-save-mode t)
+
+  ;; Weeks start on Monday.
+  (calendar-week-start-day 1)
+
+  ;; Don't require a double space to end a sentence.
+  (sentence-end-double-space nil)
+
+  ;; spell checking - use jinx instead
+  (ispell-dictionary "en_GB")
+
+  :init
+  ;; From vertico config
+  ;; Prompt indicator for `completing-read-multiple'.
+  (when (< emacs-major-version 31)
+    (advice-add #'completing-read-multiple :filter-args
+                (lambda (args)
+                  (cons (format "[CRM%s] %s"
+                                (string-replace "[ \t]*" "" crm-separator)
+                                (car args))
+                        (cdr args)))))
 
   ;; There's no need to be quite so paranoid...!
   (defalias 'yes-or-no-p 'y-or-n-p)
 
-  ;; ediff
-  (setq ediff-keep-variants nil)
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  ;; Revert Dired & other buffers
-  (setq global-auto-revert-non-file-buffers t)
-  ;; (global-auto-revert-mode 1)
-
-  ;; Save & restore open buffers, but not frames & position
-  (setq desktop-restore-frames nil)
-  (desktop-save-mode t)
-
-  ;; Weeks start on Monday.
-  (setq calendar-week-start-day 1)
-
-  ;; Don't require a double space to end a sentence.
-  (setq sentence-end-double-space nil)
-
-  ;; spell checking - use jinx instead
-  (setq ispell-dictionary "en_GB")
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
   ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
