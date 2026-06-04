@@ -25,8 +25,6 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror 'nomessage)
 
-;; (use-package all-the-icons)
-
 (use-package doom-modeline
   :pin melpa
   :init (doom-modeline-mode 1)
@@ -69,6 +67,14 @@
   ;; Must be in the :init section of use-package such that the mode gets
   ;; enabled right away. Note that this forces loading the package.
   (marginalia-mode))
+
+;; nerd-icons-completion for pretty icons in marginalia
+(use-package nerd-icons-completion
+  :pin melpa
+  :after marginalia
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 ;; Consult (Improved search and navigation commands)
 (use-package consult
