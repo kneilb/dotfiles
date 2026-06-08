@@ -1,3 +1,5 @@
+;;; init.el --- Personal configuration  -*- lexical-binding: t; -*-
+
 (require 'package)
 ;; NB. Need melpa for doom-modeline today (2025-02-25)
 (add-to-list 'package-archives
@@ -10,11 +12,7 @@
   (package-initialize)
   (setq package-enable-at-startup nil))
 
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
+;; use-package is bundled with Emacs since 29, no bootstrap needed
 (eval-when-compile
   (require 'use-package))
 
@@ -231,7 +229,7 @@
 
 ;; Which-key
 (use-package which-key
-  :pin gnu
+  :ensure nil ;; built-in since Emacs 30
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -262,10 +260,10 @@
 
 ;; Editorconfig, for sanity
 (use-package editorconfig
-  :pin nongnu
+  :ensure nil ;; built-in since Emacs 30
   :diminish editorconfig-mode
   :config
-  (editorconfig-mode 1))
+  (editorconfig-mode t))
 
 ;; Formatting - used by go & python
 (use-package reformatter
@@ -378,7 +376,7 @@
 
 ;; eglot (LSP integration)
 (use-package eglot
-  :pin gnu
+  :ensure nil ;; built-in since Emacs 29
   :hook ((rust-ts-mode go-ts-mode) . eglot-ensure)
   :bind (:map
          eglot-mode-map
@@ -575,22 +573,20 @@
   (setq select-active-regions nil)
 
   ;; Use theme
-  (setq modus-themes-mode-line '(accented borderless padded))
-
-  ;; (setq modus-themes-region '(accented))
-  (setq modus-themes-region '(bg-only))
-  ;; (setq modus-themes-region '(bg-only no-extend))
-
-  ;; (setq modus-themes-completions 'minimal)
-  ;; (setq modus-themes-completions 'opinionated)
-  ;; (setq modus-themes-completions
-  ;; 	(quote ((matches . (extrabold background intense underline))
-  ;; 		(selection . (extrabold accented intense background))
-  ;; 		(popup . (accented)))))
-
+  (setq modus-themes-disable-other-themes t)
   (setq modus-themes-bold-constructs t)
   (setq modus-themes-italic-constructs t)
-  (setq modus-themes-paren-match '(bold intense))
+  (setq modus-themes-common-palette-overrides
+        '(;; Borderless inactive mode line
+          ;; (border-mode-line-active unspecified)
+          (border-mode-line-inactive unspecified)
+          ;; Accented (coloured) active mode line
+          (bg-mode-line-active bg-blue-nuanced)
+          (fg-mode-line-active fg-main)
+          ;; "bg-only" region: keep each token's own foreground colour
+          (fg-region unspecified)
+          ;; Intense background for matching parens
+          (bg-paren-match bg-magenta-intense)))
 
   (load-theme 'modus-vivendi t)
 
