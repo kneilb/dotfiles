@@ -367,21 +367,23 @@
   :init
   (add-to-list 'treesit-language-source-alist '(yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml" "master" "src")))
 
-;; Use ruff to provide linting / errors via flymake
-(use-package flymake-ruff
-  :pin melpa
-  :hook (python-base-mode . (lambda ()
-                              (flymake-mode 1)
-                              (flymake-ruff-load))))
-
 ;; eglot (LSP integration)
 (use-package eglot
   :ensure nil ;; built-in since Emacs 29
-  :hook ((rust-ts-mode go-ts-mode) . eglot-ensure)
+  :hook
+  (go-ts-mode . eglot-ensure)
+  (python-ts-mode . eglot-ensure)
+  (rust-ts-mode . eglot-ensure)
+  :init
+  ;; Use ruff to provide linting etc via python3-lsp-ruff
+  (setq-default eglot-workspace-configuration
+   '(:pylsp (:plugins (:ruff (:enabled :json-true
+                              :executable "/usr/sbin/ruff"
+                              :lineLength 120)))))
   :bind (:map
          eglot-mode-map
          ("C-c e a" . eglot-code-actions)
-         ("C-c e o" . eglot-code-actions-organize-imports)
+         ("C-c e o" . eglot-code-action-organize-imports)
          ("C-c e r" . eglot-rename)
          ("C-c e f" . eglot-format)))
 
