@@ -227,6 +227,11 @@
   ("C-c n l" . consult-org-roam-forward-links)
   ("C-c n r" . consult-org-roam-search))
 
+;; Completion preview (inline as-you-type completion), built-in since Emacs 30
+(use-package completion-preview
+  :ensure nil
+  :hook (prog-mode . completion-preview-mode))
+
 ;; Which-key
 (use-package which-key
   :ensure nil ;; built-in since Emacs 30
