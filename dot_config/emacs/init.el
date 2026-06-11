@@ -579,6 +579,16 @@
   ;; Fix pasting into Windows from emacs kill buffer
   (setq select-active-regions nil)
 
+  ;; Window management
+  (setq window-sides-slots '(1 0 1 0))
+  (add-to-list 'display-buffer-alist
+               `(,(rx (| "*compilation*" "*grep*" "*Embark Export" "*Occur" "*HTTP Response"))
+                 display-buffer-in-side-window
+                 (side . right)
+                 (slot . 0)
+                 (window-parameters . ((no-delete-other-windows . t)))
+                 (window-width . 80)))
+
   ;; Use theme
   (setq modus-themes-disable-other-themes t)
   (setq modus-themes-bold-constructs t)
