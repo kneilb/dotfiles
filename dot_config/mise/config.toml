@@ -1,9 +1,11 @@
 [tools]
 aws = "latest"
 azure-cli = "latest"
+claude = "latest"
 gcloud = "latest"
-helm = "3.17"
+gh = "latest"
+helm = "latest"
 k9s = "latest"
 kubectl = "1.32"
-python = "3.13"
 terraform = "1.9.6"
+uv = "latest"
