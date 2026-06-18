@@ -421,19 +421,23 @@
 ;; org mode & org-roam
 (use-package org
   :pin gnu
-  :after verb
   :mode
   ("\\.org\\'" . org-mode)
-  :bind (("C-c a" . org-agenda)
-	 ("C-c b" . org-switchb)
-	 ("C-c c" . org-capture)
-	 ("C-c l" . org-store-link)
-	 ("C-c t" . org-todo-list))
-  :init
-  (setq org-confirm-babel-evaluate nil)
+  :bind
+  ("C-c a" . org-agenda)
+  ("C-c b" . org-switchb)
+  ("C-c c" . org-capture)
+  ("C-c l" . org-store-link)
+  ("C-c t" . org-todo-list)
   :custom
-  ;; Enable exporting to Markdown (via C-c C-e m m)
-  (org-export-backends '(ascii html icalendar latex md odt))
+  ;; Setting org-agenda-files like this makes org-todo-list etc open every single file!
+  ;; (org-agenda-files '("~/org" "~/org/daily")) ;; Directories containing agenda files
+  (org-attach-use-inheritance t) ;; Search up hierarchy for attachment dirs
+  (org-confirm-babel-evaluate nil) ;; Disable confirmation for org-babel evaluation
+  (org-edit-src-content-indentation 0) ;; Don't indent source files
+  (org-export-backends '(ascii html icalendar latex md odt)) ;; Enable exporting to Markdown (via C-c C-e m m)
+  ;; (org-M-RET-may-split-line '((default . nil))) ;; Don't split a line when pressing M-RET
+  (org-startup-folded "nofold") ;; Start up with drawers folded, everything else shown
   :config
   ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
@@ -443,14 +447,7 @@
      (shell . t)
      (verb . t)))
   ;; This can't be done with bind/map
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  (setq
-   ;; Setting org-agenda-files like this makes org-todo-list etc open every single file!
-   ;; org-agenda-files '("~/org" "~/org/daily") ;; Directories containing agenda files
-   org-attach-use-inheritance t ;; Search up hierarchy for attachment dirs
-   org-edit-src-content-indentation 0 ;; Don't indent source files
-   ;; org-M-RET-may-split-line '((default . nil)) ;; Don't split a line when pressing M-RET
-   org-startup-folded "nofold")) ;; Start up with drawers folded, everything else shown
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package org-roam
   :pin gnu
@@ -462,7 +459,7 @@
 	 ("C-c n d" . org-roam-dailies-goto-date)
 	 ("C-c n t" . org-roam-dailies-goto-today)
          :map org-mode-map
-         ("C-M-i"    . completion-at-point))
+         ("C-M-i" . completion-at-point))
   :config
   (org-roam-db-autosync-mode))
 
