@@ -577,7 +577,7 @@
   (setq select-active-regions nil)
 
   ;; Window management
-  (setq window-sides-slots '(1 0 1 0))
+  (setq window-sides-slots '(nil nil 1 nil))
   (add-to-list 'display-buffer-alist
                `(,(rx (| "*compilation*" "*grep*" "*Embark Export" "*Occur" "*HTTP Response"))
                  display-buffer-in-side-window
