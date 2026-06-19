@@ -431,6 +431,7 @@
   ("C-c t" . org-todo-list)
   :custom
   ;; Setting org-agenda-files like this makes org-todo-list etc open every single file!
+  ;; We therefore use my/org-roam-get-active-todo-files to set it dynamically (see below).
   ;; (org-agenda-files '("~/org" "~/org/daily")) ;; Directories containing agenda files
   (org-attach-use-inheritance t) ;; Search up hierarchy for attachment dirs
   (org-confirm-babel-evaluate nil) ;; Disable confirmation for org-babel evaluation
@@ -461,21 +462,34 @@
          :map org-mode-map
          ("C-M-i" . completion-at-point))
   :config
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode)
+
+  (defun my/org-roam-get-active-todo-files ()
+    "Fast file system search for files containing active TODO keywords."
+    (interactive)
+    (let ((notes-dir (expand-file-name org-roam-directory)))
+      (setq org-agenda-files
+            (split-string
+             (shell-command-to-string
+              (format "rg --glob='*.org' -l '^\\*+ (TODO|START)' %s" notes-dir))
+             "\n" t))))
+
+  ;; Automatically update the file list right before opening the agenda
+  (add-hook 'org-agenda-mode-hook #'my/org-roam-get-active-todo-files))
 
 (use-package org-roam-ui
   :pin melpa
   :after org-roam
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-  ;;  :hook (after-init . org-roam-ui-mode)
+  ;; normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;; a hookable mode anymore, you're advised to pick something yourself
+  ;; if you don't care about startup time, use
+  ;; :hook (after-init . org-roam-ui-mode)
   :bind (("C-c n u" . org-roam-ui-open))
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start t))
 
 ;; REST client stuff (verb is an extension of org)
 (use-package verb
