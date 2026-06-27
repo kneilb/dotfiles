@@ -22,6 +22,7 @@
 [merge]
 	tool = bc
 	ff = false
+	conflictStyle = diff3
 [mergetool]
 	prompt = false
 [push]
