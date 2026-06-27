@@ -16,5 +16,8 @@ fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path $HOME/go/bin
 
+# user variables
+set -x KUBECONFIG $HOME/.kube/config:$HOME/.kube/kind-mkio-config:$HOME/.kube/az-aks-config:$HOME/.kube/aws-eks-config
+
 # disable greeting on start up
 set fish_greeting
