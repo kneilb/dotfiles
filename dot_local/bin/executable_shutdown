@@ -1,0 +1,3 @@
+kubectl config use-context kind-mkio
+wsl.exe --shutdown
+
