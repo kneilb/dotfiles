@@ -392,14 +392,6 @@
          ("C-c e r" . eglot-rename)
          ("C-c e f" . eglot-format)))
 
-;; TODO: worth keeping?
-(use-package kubernetes
-  :pin melpa
-  :commands (kubernetes-overview)
-  :config
-  (setq kubernetes-poll-frequency 3600
-        kubernetes-redraw-frequency 3600))
-
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
   :pin nongnu
