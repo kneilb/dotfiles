@@ -278,6 +278,21 @@
 (use-package jinja2-mode
   :pin nongnu)
 
+;; markdown-ts-mode doesn't seem to work - use this instead
+(use-package markdown-mode
+  :pin melpa
+  :commands (gfm-mode
+             gfm-view-mode
+             markdown-mode
+             markdown-view-mode)
+  :mode
+  ("\\.markdown\\'" . markdown-mode)
+  ("\\.md\\'" . markdown-mode)
+  ("README\\.md\\'" . gfm-mode)
+  :bind
+  (:map markdown-mode-map
+        ("C-c C-e" . markdown-do)))
+
 ;; For YAML files with Jinja2 templating
 (use-package poly-ansible
   :pin melpa
