@@ -175,9 +175,9 @@
 (use-package embark
   :pin gnu
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("M-." . embark-dwim)        ;; good alternative: M-. (was C-;)
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  ("C-." . embark-act)        ;; pick some comfortable binding
+  ("M-." . embark-dwim)       ;; good alternative: M-. (was C-;)
+  ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
 
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -413,10 +413,11 @@
 (use-package jinx
   :pin gnu
   :hook (emacs-startup . global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages))
-  :config
-  (setq jinx-languages "en_GB"))
+  :bind
+  ("M-$" . jinx-correct)
+  ("C-M-$" . jinx-languages)
+  :custom
+  (jinx-languages "en_GB"))
 
 ;; org mode & org-roam
 (use-package org
