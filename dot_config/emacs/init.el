@@ -280,6 +280,12 @@
   :after treesit
   :hook
   (json-ts-mode toml-ts-mode yaml-mode)
+  :bind
+  ("C-c z o" . treesit-fold-open)
+  ("C-c z O" . treesit-fold-open-recursively)
+  ("C-c z c" . treesit-fold-close)
+  ("C-c z m" . treesit-fold-close-all)
+  ("C-c z a" . treesit-fold-toggle)
   :commands (treesit-fold-close
              treesit-fold-close-all
              treesit-fold-open
