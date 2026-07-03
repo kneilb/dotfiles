@@ -274,6 +274,30 @@
 (use-package reformatter
   :pin nongnu)
 
+;; Folding backend
+(use-package treesit-fold
+  :pin nongnu
+  :after treesit
+  :hook
+  (json-ts-mode toml-ts-mode yaml-mode)
+  :commands (treesit-fold-close
+             treesit-fold-close-all
+             treesit-fold-open
+             treesit-fold-toggle
+             treesit-fold-open-all
+             treesit-fold-mode
+             global-treesit-fold-mode
+             treesit-fold-open-recursively
+             treesit-fold-line-comment-mode)
+  :custom
+  (treesit-fold-line-count-show t)
+  (treesit-fold-line-count-format " ?")
+  :config
+  (set-face-attribute 'treesit-fold-replacement-face nil
+                      :foreground "#808080"
+                      :box nil
+                      :weight 'bold))
+
 ;; NON TREE SITTER LANGUAGES
 (use-package jinja2-mode
   :pin nongnu)
