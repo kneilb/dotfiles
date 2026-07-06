@@ -427,7 +427,7 @@
   :init
   ;; Use ruff to provide linting etc via python3-lsp-ruff
   (setq-default eglot-workspace-configuration
-   '(:pylsp (:plugins (:ruff (:enabled :json-true
+   '(:pylsp (:plugins (:ruff (:enabled t
                               :executable "/usr/sbin/ruff"
                               :lineLength 120)))))
   :bind (:map
