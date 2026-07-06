@@ -274,18 +274,32 @@
 (use-package reformatter
   :pin nongnu)
 
+;; FOLDING
+;; Folding frontend (handles org-mode, treesit-fold etc)
+(use-package kirigami
+  :pin melpa
+  :commands (kirigami-open-fold
+             kirigami-open-fold-rec
+             kirigami-open-folds
+             kirigami-close-fold
+             kirigami-close-folds
+             kirigami-toggle-fold
+             kirigami-close-folds-except-current)
+  :bind
+  ;; Vanilla Emacs keybindings
+  ("C-c z o" . kirigami-open-fold)
+  ("C-c z O" . kirigami-open-fold-rec)
+  ("C-c z r" . kirigami-open-folds)
+  ("C-c z c" . kirigami-close-fold)
+  ("C-c z m" . kirigami-close-folds)
+  ("C-c z a" . kirigami-toggle-fold))
+
 ;; Folding backend
 (use-package treesit-fold
   :pin nongnu
   :after treesit
   :hook
   (json-ts-mode toml-ts-mode yaml-mode)
-  :bind
-  ("C-c z o" . treesit-fold-open)
-  ("C-c z O" . treesit-fold-open-recursively)
-  ("C-c z c" . treesit-fold-close)
-  ("C-c z m" . treesit-fold-close-all)
-  ("C-c z a" . treesit-fold-toggle)
   :commands (treesit-fold-close
              treesit-fold-close-all
              treesit-fold-open
@@ -297,7 +311,7 @@
              treesit-fold-line-comment-mode)
   :custom
   (treesit-fold-line-count-show t)
-  (treesit-fold-line-count-format " ?")
+  ;; (treesit-fold-line-count-format " ?")
   :config
   (set-face-attribute 'treesit-fold-replacement-face nil
                       :foreground "#808080"
