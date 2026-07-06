@@ -389,7 +389,12 @@
 
 (use-package json-ts-mode
   :after treesit
-  :mode "\\(?:\\(?:\\.\\(?:b\\(?:\\(?:abel\\|ower\\)rc\\)\\|json\\(?:ld\\)?\\)\\|composer\\.lock\\)\\'\\)"
+  :mode
+  (rx (or (seq "."
+               (or (seq (or "babel" "bower") "rc")
+                   (seq "json" (opt (or "c" "ld")))))
+          "composer.lock")
+      eos)
   :defer 't
   :init
   (add-to-list 'treesit-language-source-alist '(json "https://github.com/tree-sitter/tree-sitter-json" "master" "src")))
