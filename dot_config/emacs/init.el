@@ -449,9 +449,9 @@
   :init
   ;; Use ruff to provide linting etc via python3-lsp-ruff
   (setq-default eglot-workspace-configuration
-   '(:pylsp (:plugins (:ruff (:enabled t
-                              :executable "/usr/sbin/ruff"
-                              :lineLength 120)))))
+                '(:pylsp (:plugins (:ruff (:enabled t
+                                           :executable "/usr/sbin/ruff"
+                                           :lineLength 120)))))
   :bind (:map
          eglot-mode-map
          ("C-c e a" . eglot-code-actions)
@@ -657,7 +657,7 @@
                  display-buffer-in-side-window
                  (side . right)
                  (slot . 0)
-                 ;; Prevent the window being deleted by C-x 0
+                 ;; Prevent the window being deleted by C-x 1
                  (window-parameters . ((no-delete-other-windows . t)))
                  (window-width . 80)))
 
@@ -666,7 +666,7 @@
                  display-buffer-in-side-window
                  (side . bottom)
                  (slot . 0)
-                 ;; Prevent the window being deleted by C-x 0
+                 ;; Prevent the window being deleted by C-x 1
                  (window-parameters . ((no-delete-other-windows . t)))
                  (window-height . 0.25)))
 
