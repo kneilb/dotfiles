@@ -648,12 +648,22 @@
   ;; Window management
   (setq window-sides-slots '(nil nil 1 nil))
   (add-to-list 'display-buffer-alist
-               `(,(rx (| "*compilation*" "*grep*" "*Embark Export" "*Occur" "*HTTP Response"))
+               `(,(rx (| "*grep*" "*Embark Export" "*Occur" "*HTTP Response" "*Embark Actions*"))
                  display-buffer-in-side-window
                  (side . right)
                  (slot . 0)
+                 ;; Prevent the window being deleted by C-x 0
                  (window-parameters . ((no-delete-other-windows . t)))
                  (window-width . 80)))
+
+  (add-to-list 'display-buffer-alist
+               `(,(rx (| "*compilation*" "Backtrace" "Compile-log" "Messages" "Warnings"))
+                 display-buffer-in-side-window
+                 (side . bottom)
+                 (slot . 0)
+                 ;; Prevent the window being deleted by C-x 0
+                 (window-parameters . ((no-delete-other-windows . t)))
+                 (window-height . 0.25)))
 
   ;; Use theme
   (setq modus-themes-disable-other-themes t)
