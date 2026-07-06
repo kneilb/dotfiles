@@ -254,6 +254,9 @@
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-define-global-key-bindings nil)
   (magit-log-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)) ;; Show dates, not vagueness
+  ;; Show full screen, restore on bury (via "q")
+  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1)
+  (magit-bury-buffer-function 'magit-restore-window-configuration)
   :bind
   ("C-x g" . magit-status)
   ("C-c g" . magit-dispatch)
