@@ -302,7 +302,7 @@
   :pin nongnu
   :after treesit
   :hook
-  (json-ts-mode toml-ts-mode yaml-mode)
+  (json-ts-mode toml-ts-mode yaml-ts-mode)
   :commands (treesit-fold-close
              treesit-fold-close-all
              treesit-fold-open
