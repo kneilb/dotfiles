@@ -23,6 +23,11 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror 'nomessage)
 
+(use-package mise
+  :pin melpa
+  :init
+  (global-mise-mode))
+
 (use-package doom-modeline
   :pin melpa
   :init (doom-modeline-mode 1)
