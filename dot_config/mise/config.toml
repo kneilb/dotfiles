@@ -1,3 +1,54 @@
+[settings]
+experimental = true
+
+[bootstrap.user]
+login_shell = "/bin/fish"
+
+[bootstrap.packages]
+"dnf:fish" = "latest"
+"dnf:glibc-langpack-en" = "latest"
+"dnf:emacs-gtk+x11" = "latest"
+"dnf:enchant2-devel" = "latest"
+"dnf:atuin" = "latest"
+"dnf:bat" = "latest"
+"dnf:fd-find" = "latest"
+"dnf:fzf" = "latest"
+"dnf:mise" = "latest"
+"dnf:ripgrep" = "latest"
+"dnf:wget2-wget" = "latest"
+"dnf:zip" = "latest"
+"dnf:python3" = "latest"
+"dnf:black" = "latest"
+"dnf:python3-isort" = "latest"
+"dnf:python3-jinja2-cli" = "latest"
+"dnf:python3-lsp-server" = "latest"
+"dnf:python3-lsp-ruff" = "latest"
+"dnf:ruff" = "latest"
+"dnf:btop" = "latest"
+"dnf:htop" = "latest"
+"dnf:ncdu" = "latest"
+"dnf:jq" = "latest"
+"dnf:yq" = "latest"
+"dnf:mtr" = "latest"
+"dnf:bind-utils" = "latest"
+"dnf:kind" = "latest"
+"dnf:openssl" = "latest"
+"dnf:postgresql" = "latest"
+
+[bootstrap.repos]
+"~/org" = { url = "git@github.com:kneilb/org.git" }
+"~/repos/mk/io/mkio-devenv" = { url = "git@github-mk:mediakind-labs/mkio-devenv.git" }
+"~/repos/mk/io/mkio-api" = { url = "git@github-mk:mediakind-labs/mkio-api.git" }
+"~/repos/mk/io/mkio-ui" = { url = "git@github-mk:mediakind-labs/mkio-ui.git" }
+"~/repos/mk/io/mkio-eae" = { url = "git@github-mk:mediakind-labs/mkio-eae.git" }
+"~/repos/mk/io/mkio-cloud-infrastructure" = { url = "git@github-mk:mediakind-labs/mkio-cloud-infrastructure.git" }
+"~/repos/mk/io/mkio-provisioner" = { url = "git@github-mk:mediakind-labs/mkio-provisioner.git" }
+"~/repos/mk/io/mkio-coin" = { url = "git@github-mk:mediakind-labs/mkio-coin.git" }
+"~/repos/mk/io/mkio-remote-access" = { url = "git@github-mk:mediakind-labs/mkio-remote-access.git" }
+"~/repos/mk/io/mkio-support" = { url = "git@github-mk:mediakind-labs/mkio-support.git" }
+"~/repos/mk/io/mk-operator" = { url = "git@github-mk:mediakind-labs/mk-operator.git" }
+"~/repos/mk/io/mk-orchestrator" = { url = "git@github-mk:mediakind-labs/mk-orchestrator.git" }
+
 [tools]
 aws = "latest"
 azure-cli = "latest"
