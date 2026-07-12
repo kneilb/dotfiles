@@ -35,6 +35,31 @@ login_shell = "/bin/fish"
 "dnf:openssl" = "latest"
 "dnf:postgresql" = "latest"
 
+"brew:fish" = "latest"
+"brew:bash" = "latest"
+"brew:enchant" = "latest"
+"brew:atuin" = "latest"
+"brew:bat" = "latest"
+"brew:chezmoi" = "latest"
+"brew:fd" = "latest"
+"brew:fzf" = "latest"
+"brew:mise" = "latest"
+"brew:ripgrep" = "latest"
+"brew:wget" = "latest"
+"brew:zip" = "latest"
+"brew:pkgconf" = "latest"
+"brew:ruff" = "latest"
+"brew:btop" = "latest"
+"brew:htop" = "latest"
+"brew:ncdu" = "latest"
+"brew:jq" = "latest"
+"brew:yq" = "latest"
+"brew:mtr" = "latest"
+
+"brew:rust-analyzer" = "latest"
+"brew:rustup" = "latest"
+"brew:starship" = "latest"
+
 [bootstrap.repos]
 "~/org" = { url = "git@github.com:kneilb/org.git" }
 "~/repos/mk/io/mkio-devenv" = { url = "git@github-mk:mediakind-labs/mkio-devenv.git" }
