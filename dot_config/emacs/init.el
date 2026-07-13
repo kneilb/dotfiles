@@ -437,6 +437,20 @@
   :custom
   (rust-indent-level 2))
 
+(use-package tsx-ts-mode
+  :ensure nil
+  :after treesit
+  :mode "\\.tsx\\'"
+  :init
+  (add-to-list 'treesit-language-source-alist '(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
+(use-package typescript-ts-mode
+  :ensure nil
+  :after treesit
+  :mode "\\.ts\\'"
+  :init
+  (add-to-list 'treesit-language-source-alist '(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")))
+
 (use-package yaml-ts-mode
   :after treesit
   :mode "\\.ya?ml\\'"
