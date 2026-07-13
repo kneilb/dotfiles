@@ -628,6 +628,7 @@
 
   ;; Save & restore open buffers, but not frames & position
   (desktop-restore-frames nil)
+  (desktop-restore-eager 1)
   (desktop-save-mode t)
 
   ;; Weeks start on Monday.
