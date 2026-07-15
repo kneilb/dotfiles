@@ -62,5 +62,5 @@
         }
     },
     "small_model": "azure/gpt-5.4-nano",
-    "model": "azure/gpt-5.4-nano"
+    "model": "azure/gpt-5.4-mini"
 }
