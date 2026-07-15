@@ -392,6 +392,13 @@
     :program "goimports"
     :args '("/dev/stdin")))
 
+(use-package js-ts-mode
+  :ensure nil
+  :after treesit
+  :mode "\\.js\\'"
+  :init
+  (add-to-list 'treesit-language-source-alist '(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")))
+
 (use-package json-ts-mode
   :after treesit
   :mode
@@ -459,8 +466,11 @@
   :ensure nil ;; built-in since Emacs 29
   :hook
   (go-ts-mode . eglot-ensure)
+  (js-ts-mode . eglot-ensure)
   (python-ts-mode . eglot-ensure)
   (rust-ts-mode . eglot-ensure)
+  (tsx-ts-mode . eglot-ensure)
+  (typescript-ts-mode . eglot-ensure)
   :init
   ;; Use ruff to provide linting etc via python3-lsp-ruff
   (setq-default eglot-workspace-configuration
