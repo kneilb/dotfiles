@@ -330,7 +330,7 @@
 (use-package jinja2-mode
   :pin nongnu)
 
-;; markdown-ts-mode doesn't seem to work - use this instead
+;; TODO try markdown-ts-mode again in 31.0 (code block formatting bad as of 2026-07-15)
 (use-package markdown-mode
   :pin melpa
   :commands (gfm-mode
@@ -404,17 +404,13 @@
   :init
   (add-to-list 'treesit-language-source-alist '(json "https://github.com/tree-sitter/tree-sitter-json" "master" "src")))
 
-;; TODO not getting activated...
+;; TODO: This is worse for now, but should be better in Emacs 31
 ;; (use-package markdown-ts-mode
-;;   :ensure nil
-;;   :after treesit
-;;   :mode "\\.md\\'"
-;;   :defer 't
-;;   :init
-;;   (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
-;;   (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
-;;   :config
-;;   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode)))
+;;    :mode ("\\.md\\'" . markdown-ts-mode)
+;;    :defer 't
+;;    :init
+;;    (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+;;    (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")))
 
 (use-package python-ts-mode
   :ensure nil
