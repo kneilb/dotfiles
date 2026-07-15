@@ -1,53 +1,61 @@
 ;;; init.el --- Personal configuration  -*- lexical-binding: t; -*-
 
-(require 'package)
-;; NB. Need melpa for doom-modeline today (2025-02-25)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
-(setq package-archive-priorities
-      '((gnu . 10)
-        (nongnu . 5)
-        (melpa . 1)))
-(unless (bound-and-true-p package--initialized)
-  (package-initialize)
-  (setq package-enable-at-startup nil))
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; use-package is bundled with Emacs since 29, no bootstrap needed
 (eval-when-compile
   (require 'use-package))
 
-;; Always install things we try to configure
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
+;; Install use-package itself via straight, and use straight to install
+;; every package we configure below unless a clause says :straight nil
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+(setq straight-vc-git-default-clone-depth '(1 single-branch))  ;; instead of the default 'full
+(setq use-package-verbose nil) ;; use 't' to see execution profile at startup
+
+;; Build a modern `transient' via straight before anything else (e.g.
+;; org-roam's magit-section dependency) can pull in Emacs's older bundled
+;; version first -- otherwise magit complains it needs transient >= 0.13.
+(straight-use-package 'transient)
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file 'noerror 'nomessage)
 
 (use-package mise
-  :pin melpa
   :init
   (global-mise-mode))
 
 (use-package doom-modeline
-  :pin melpa
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 30)))
 
 ;; Vertico (vertical interactive completion).
 (use-package vertico
-  :pin gnu
   :init
   (vertico-mode))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
-  :pin gnu
   :init
   (savehist-mode))
 
 ;; Use the `orderless' completion style.
 (use-package orderless
-  :pin gnu
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
@@ -59,7 +67,6 @@
 
 ;; Marginalia (rich annotations in the minibuffer)
 (use-package marginalia
-  :pin gnu
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -74,7 +81,6 @@
 
 ;; nerd-icons-completion for pretty icons in marginalia
 (use-package nerd-icons-completion
-  :pin melpa
   :after marginalia
   :config
   (nerd-icons-completion-mode)
@@ -82,7 +88,6 @@
 
 ;; Consult (Improved search and navigation commands)
 (use-package consult
-  :pin gnu
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
@@ -178,7 +183,6 @@
 
 ;; Embark (Minibuffer actions)
 (use-package embark
-  :pin gnu
   :bind
   ("C-." . embark-act)        ;; pick some comfortable binding
   ("M-." . embark-dwim)       ;; good alternative: M-. (was C-;)
@@ -196,14 +200,12 @@
                  (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-  :pin gnu)
+(use-package embark-consult)
 
 ;; TODO: I'm not sure I like the buffer reordering in consult-buffer!
 ;; Get over it - use narrowing keys (<r) to move to org-roam buffers!
 ;; Maybe just disable -buffer-after-buffers??
 (use-package consult-org-roam
-  :pin melpa
   ;; :after org-roam
   :init
   (require 'consult-org-roam)
@@ -234,12 +236,12 @@
 
 ;; Completion preview (inline as-you-type completion), built-in since Emacs 30
 (use-package completion-preview
-  :ensure nil
+  :straight nil
   :hook (prog-mode . completion-preview-mode))
 
 ;; Which-key
 (use-package which-key
-  :ensure nil ;; built-in since Emacs 30
+  :straight nil ;; built-in since Emacs 30
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -247,12 +249,10 @@
 
 ;; Rainbow delimiters in programming modes
 (use-package rainbow-delimiters
-  :pin nongnu
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Magit for git interactions
 (use-package magit
-  :pin nongnu
   :commands magit-status
   :custom
   (magit-diff-refine-hunk t)
@@ -268,24 +268,21 @@
   ("C-c f" . magit-file-dispatch))
 
 ;; Support diminishing minor modes
-(use-package diminish
-  :pin melpa)
+(use-package diminish)
 
 ;; Editorconfig, for sanity
 (use-package editorconfig
-  :ensure nil ;; built-in since Emacs 30
+  :straight nil ;; built-in since Emacs 30
   :diminish editorconfig-mode
   :config
   (editorconfig-mode t))
 
 ;; Formatting - used by go & python
-(use-package reformatter
-  :pin nongnu)
+(use-package reformatter)
 
 ;; FOLDING
 ;; Folding frontend (handles org-mode, treesit-fold etc)
 (use-package kirigami
-  :pin melpa
   :commands (kirigami-open-fold
              kirigami-open-fold-rec
              kirigami-open-folds
@@ -304,7 +301,6 @@
 
 ;; Folding backend
 (use-package treesit-fold
-  :pin nongnu
   :after treesit
   :hook
   (json-ts-mode toml-ts-mode yaml-ts-mode)
@@ -327,12 +323,10 @@
                       :weight 'bold))
 
 ;; NON TREE SITTER LANGUAGES
-(use-package jinja2-mode
-  :pin nongnu)
+(use-package jinja2-mode)
 
 ;; TODO try markdown-ts-mode again in 31.0 (code block formatting bad as of 2026-07-15)
 (use-package markdown-mode
-  :pin melpa
   :commands (gfm-mode
              gfm-view-mode
              markdown-mode
@@ -347,14 +341,11 @@
 
 ;; For YAML files with Jinja2 templating
 (use-package poly-ansible
-  :pin melpa
   :mode ("\\.yaml.j2\\'" . poly-ansible-mode))
 
-(use-package robot-mode
-  :pin melpa)
+(use-package robot-mode)
 
-(use-package terraform-mode
-  :pin melpa)
+(use-package terraform-mode)
 
 ;; TREE SITTER LANGUAGES
 ;; to build the grammars:
@@ -362,7 +353,7 @@
 
 ;; This is really shell-ts-mode, and works for fish too.
 (use-package bash-ts-mode
-  :ensure nil
+  :straight nil
   :after treesit
   :defer 't
   :mode ("\\.sh\\'" "\\.env\\'" "\\.fish\\'")
@@ -393,7 +384,7 @@
     :args '("/dev/stdin")))
 
 (use-package js-ts-mode
-  :ensure nil
+  :straight nil
   :after treesit
   :mode "\\.js\\'"
   :init
@@ -420,7 +411,7 @@
 ;;    (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")))
 
 (use-package python-ts-mode
-  :ensure nil
+  :straight nil
   :after (treesit reformatter)
   :mode "\\.py\\'"
   :init
@@ -441,14 +432,14 @@
   (rust-indent-level 2))
 
 (use-package tsx-ts-mode
-  :ensure nil
+  :straight nil
   :after treesit
   :mode "\\.tsx\\'"
   :init
   (add-to-list 'treesit-language-source-alist '(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 
 (use-package typescript-ts-mode
-  :ensure nil
+  :straight nil
   :after treesit
   :mode "\\.ts\\'"
   :init
@@ -463,7 +454,7 @@
 
 ;; eglot (LSP integration)
 (use-package eglot
-  :ensure nil ;; built-in since Emacs 29
+  :straight nil ;; built-in since Emacs 29
   :hook
   (go-ts-mode . eglot-ensure)
   (js-ts-mode . eglot-ensure)
@@ -486,7 +477,6 @@
 
 ;; clean up whitespace on edited lines only
 (use-package ws-butler
-  :pin nongnu
   :init
   (setq ws-butler-keep-whitespace-before-point nil)
   :config
@@ -495,7 +485,6 @@
 
 ;; spell checking (better than flyspell!)
 (use-package jinx
-  :pin gnu
   :hook (emacs-startup . global-jinx-mode)
   :bind
   ("M-$" . jinx-correct)
@@ -503,9 +492,13 @@
   :custom
   (jinx-languages "en_GB"))
 
+;; REST client stuff (verb is an extension of org)
+;; It must load before org, which references `verb-command-map' and loads `ob-verb'.
+;; With straight, this means it must be earlier in the file!
+(use-package verb)
+
 ;; org mode & org-roam
 (use-package org
-  :pin gnu
   :mode
   ("\\.org\\'" . org-mode)
   :bind
@@ -536,7 +529,6 @@
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package org-roam
-  :pin gnu
   :custom
   (org-roam-directory (file-truename "~/org"))
   (org-roam-completion-everywhere t)
@@ -563,7 +555,6 @@
   (add-hook 'org-agenda-mode-hook #'my/org-roam-get-active-todo-files))
 
 (use-package org-roam-ui
-  :pin melpa
   :after org-roam
   ;; normally we'd recommend hooking orui after org-roam, but since org-roam does not have
   ;; a hookable mode anymore, you're advised to pick something yourself
@@ -576,17 +567,12 @@
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start t))
 
-;; REST client stuff (verb is an extension of org)
-(use-package verb
-  :pin melpa)
-
 ;; For exporting org-mode to Slack format
-(use-package ox-slack
-  :pin melpa)
+(use-package ox-slack)
 
 ;; More useful configuration...
 (use-package emacs
-  :ensure nil
+  :straight nil
   :custom
   ;; Begin VERTICO stuff
   ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer

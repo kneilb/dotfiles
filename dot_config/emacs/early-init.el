@@ -1,3 +1,6 @@
+;; Using straight.el for package management instead of package.el
+(setq package-enable-at-startup nil)
+
 ;; Disable unwanted UI elements
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
