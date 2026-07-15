@@ -1,0 +1,66 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "enabled_providers": ["azure"],
+    "lsp": true,
+    "permission": {
+        "edit": "allow",
+        "bash": {
+            "*": "ask",
+            "ls": "allow",
+            "go test *": "allow",
+            "go vet *": "allow",
+            "mkdir *": "allow",
+            "git add *": "allow",
+            "git show *": "allow",
+            "git log *": "allow",
+            "git status *": "allow",
+            "git commit *": "allow",
+            "git rev-parse *": "allow",
+            "git diff *": "allow",
+            "wc *": "allow"
+        }
+    },
+    "provider": {
+        "azure": {
+            "npm": "@ai-sdk/azure",
+            "models": {
+                "gpt-5.4-nano": {
+                    "name": "gpt-5.4-nano",
+                    "cost": {
+                        "input": 0.20,
+                        "output": 1.25,
+                        "cache_read": 0.02,
+                        "cache_write": 0.125
+                    },
+                    "options": {
+                        "reasoningEffort": "high"
+                    }
+                },
+                "gpt-5.4-mini": {
+                    "name": "gpt-5.4-mini",
+                    "cost": {
+                        "input": 0.75,
+                        "output": 4.50,
+                        "cache_read": 0.08,
+                        "cache_write": 0.048
+                    },
+                    "options": {
+                        "reasoningEffort": "high"
+                    }
+                },
+                "gpt-5.4": {
+                    "name": "gpt-5.4",
+                    "context": "272000",
+                    "cost": {
+                        "input": 2.50,
+                        "output": 15,
+                        "cache_read": 0.25,
+                        "cache_write": 1.5
+                    }
+                }
+            }
+        }
+    },
+    "small_model": "azure/gpt-5.4-nano",
+    "model": "azure/gpt-5.4-nano"
+}
