@@ -14,6 +14,7 @@ experimental = true
 "~/repos/mk/io/mkio-support" = { url = "git@github-mk:mediakind-labs/mkio-support.git" }
 "~/repos/mk/io/mk-operator" = { url = "git@github-mk:mediakind-labs/mk-operator.git" }
 "~/repos/mk/io/mk-orchestrator" = { url = "git@github-mk:mediakind-labs/mk-orchestrator.git" }
+"~/repos/mk/io/release" = { url = "git@ssh.dev.azure.com:v3/mediakind/mkio/release" }
 
 [tools]
 aws = "latest"
