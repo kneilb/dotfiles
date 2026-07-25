@@ -28,6 +28,9 @@ login_shell = "/bin/fish"
 "dnf:yq" = "latest"
 "dnf:mtr" = "latest"
 "dnf:bind-utils" = "latest"
-"dnf:kind" = "latest"
+# moby-engine is the package that gets installed when you ask for docker
+"dnf:moby-engine" = "latest"
+# docker needs runc on Fedora 44 (on 41 it gets installed automatically)
+"dnf:runc" = "latest"
 "dnf:openssl" = "latest"
 "dnf:postgresql" = "latest"
