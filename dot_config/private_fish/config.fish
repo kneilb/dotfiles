@@ -17,6 +17,7 @@ fish_add_path $HOME/go/bin
 
 # user variables
 set -x KUBECONFIG $HOME/.kube/config:$HOME/.kube/kind-mkio-config:$HOME/.kube/az-aks-config:$HOME/.kube/aws-eks-config
+set -x RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/ripgreprc
 
 # disable greeting on start up
 set fish_greeting
