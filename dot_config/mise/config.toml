@@ -10,6 +10,7 @@ experimental = true
 "~/repos/mk/io/mkio-cloud-infrastructure" = { url = "git@github-mk:mediakind-labs/mkio-cloud-infrastructure.git" }
 "~/repos/mk/io/mkio-provisioner" = { url = "git@github-mk:mediakind-labs/mkio-provisioner.git" }
 "~/repos/mk/io/mkio-coin" = { url = "git@github-mk:mediakind-labs/mkio-coin.git" }
+"~/repos/mk/io/mkio-release" = { url = "git@github-mk:mediakind-labs/mkio-release.git" }
 "~/repos/mk/io/mkio-remote-access" = { url = "git@github-mk:mediakind-labs/mkio-remote-access.git" }
 "~/repos/mk/io/mkio-support" = { url = "git@github-mk:mediakind-labs/mkio-support.git" }
 "~/repos/mk/io/mk-operator" = { url = "git@github-mk:mediakind-labs/mk-operator.git" }
