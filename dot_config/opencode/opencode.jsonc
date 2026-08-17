@@ -30,7 +30,7 @@
                         "input": 0.20,
                         "output": 1.25,
                         "cache_read": 0.02,
-                        "cache_write": 0.125
+                        "cache_write": 0
                     },
                     "options": {
                         "reasoningEffort": "high"
@@ -42,25 +42,54 @@
                         "input": 0.75,
                         "output": 4.50,
                         "cache_read": 0.08,
-                        "cache_write": 0.048
+                        "cache_write": 0
                     },
                     "options": {
                         "reasoningEffort": "high"
                     }
                 },
-                "gpt-5.4": {
-                    "name": "gpt-5.4",
-                    "context": "272000",
+                "gpt-5.6-luna": {
+                    "name": "gpt-5.6-luna",
                     "cost": {
-                        "input": 2.50,
-                        "output": 15,
-                        "cache_read": 0.25,
-                        "cache_write": 1.5
+                        "input": 0.20,
+                        "output": 1.20,
+                        "cache_read": 0.02,
+                        "cache_write": 0.25,
+                        "context_over_200k": {
+                            "input": 0.40,
+                            "output": 1.80,
+                            "cache_read": 0.04,
+                            "cache_write": 0.50
+                        }
+                    },
+                    "options": {
+                        "reasoningEffort": "high",
+                        "setCacheKey": true
+                    },
+                    "variants": {
+                        "none": {
+                            "reasoningEffort": "none"
+                        },
+                        "low": {
+                            "reasoningEffort": "low"
+                        },
+                        "medium": {
+                            "reasoningEffort": "medium"
+                        },
+                        "high": {
+                            "reasoningEffort": "high"
+                        },
+                        "xhigh": {
+                            "reasoningEffort": "xhigh"
+                        },
+                        "max": {
+                            "reasoningEffort": "max"
+                        }
                     }
                 }
             }
         }
     },
     "small_model": "azure/gpt-5.4-nano",
-    "model": "azure/gpt-5.4-mini"
+    "model": "azure/gpt-5.6-luna"
 }
