@@ -28,3 +28,5 @@ login_shell = "/bin/fish"
 "dnf:moby-engine" = "latest"
 # docker needs runc on Fedora 44 (on 41 it gets installed automatically)
 "dnf:runc" = "latest"
+# database restore via psql needs openssl (even though psql was installed with mise...)
+"dnf:openssl" = "latest"
