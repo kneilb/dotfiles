@@ -649,7 +649,16 @@
   ;; (add-hook 'text-mode-hook 'flyspell-mode)
   ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
+  (defun my/setup-homebrew-path ()
+    (let ((homebrew-paths '("/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin")))
+      (setenv "PATH" (concat (mapconcat 'identity homebrew-paths ":") ":" (getenv "PATH")))
+      (setq exec-path (append homebrew-paths exec-path))))
+
+  (when (eq system-type 'darwin)
+    (my/setup-homebrew-path))
+
   ;; Make URL links open when using WSL / Windows
+  ;; TODO 2026-08-25: operating-system-release is deprecated
   (when (string-match "-[Mm]icrosoft" operating-system-release)
     (setq
      cmdExeBin"/mnt/c/Windows/System32/cmd.exe"
