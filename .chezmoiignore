@@ -36,6 +36,7 @@ README.md
 !.kube/config
 
 .local/bin/*
+!.local/bin/dhc_rides.py
 !.local/bin/shutdown
 .local/share/
 .local/state/
