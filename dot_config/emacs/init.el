@@ -672,6 +672,9 @@
      browse-url-browser-function 'browse-url-generic))
 
   ;; Fix pasting into Windows from emacs kill buffer
+  ;; These first two work in gtk+x11, the 3rd works in pgtk
+  ;; (setq select-enable-clipboard t)
+  ;; (setq select-enable-primary t)
   (setq select-active-regions nil)
 
   ;; Window management
