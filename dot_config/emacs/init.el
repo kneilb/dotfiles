@@ -68,6 +68,9 @@
 ;; Marginalia (rich annotations in the minibuffer)
 (use-package marginalia
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+  :custom
+  (marginalia-align 'right)
+  (marginalia-field-width 400)
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
          ("M-A" . marginalia-cycle))
