@@ -469,7 +469,7 @@
   ;; Use ruff to provide linting etc via python3-lsp-ruff
   (setq-default eglot-workspace-configuration
                 '(:pylsp (:plugins (:ruff (:enabled t
-                                           :executable "/usr/sbin/ruff"
+                                           :executable "/usr/bin/ruff"
                                            :lineLength 120)))))
   :bind (:map
          eglot-mode-map
