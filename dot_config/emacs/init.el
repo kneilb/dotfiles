@@ -326,6 +326,10 @@
                       :weight 'bold))
 
 ;; NON TREE SITTER LANGUAGES
+;; D2 diagrams
+(use-package d2-mode
+  :mode "\\.d2\\'")
+
 (use-package jinja2-mode)
 
 ;; TODO try markdown-ts-mode again in 31.0 (code block formatting bad as of 2026-07-15)
@@ -405,7 +409,7 @@
   :init
   (add-to-list 'treesit-language-source-alist '(json "https://github.com/tree-sitter/tree-sitter-json" "master" "src")))
 
-;; TODO: This is worse for now, but should be better in Emacs 31
+;; TODO: This is worse than markdown-mode for now, but should be better in Emacs 31
 ;; (use-package markdown-ts-mode
 ;;    :mode ("\\.md\\'" . markdown-ts-mode)
 ;;    :defer 't
@@ -495,12 +499,19 @@
   :custom
   (jinx-languages "en_GB"))
 
+;; ORG MODE & ORG-ROAM
+
 ;; REST client stuff (verb is an extension of org)
 ;; It must load before org, which references `verb-command-map' and loads `ob-verb'.
 ;; With straight, this means it must be earlier in the file!
 (use-package verb)
 
-;; org mode & org-roam
+;; Org-babel support for other languages.
+;; These must be declared before org loads its configured Babel languages below.
+(use-package ob-d2)
+
+(use-package ob-go)
+
 (use-package org
   :mode
   ("\\.org\\'" . org-mode)
@@ -524,10 +535,14 @@
   ;; Enable other languages in org-babel (C-c C-c to run)
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '(;; (go . t) needs ob-go, CBA right now
+   '((C . t)
+     (d2 . t)
+     (go . t)
      (python . t)
      (shell . t)
      (verb . t)))
+  ;; Map ob-go to go-ts-mode
+  (add-to-list 'org-src-lang-modes '("go" . go-ts))
   ;; This can't be done with bind/map
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
